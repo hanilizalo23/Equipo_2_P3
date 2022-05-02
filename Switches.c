@@ -43,12 +43,22 @@ uint8_t SW2_disable(void)
 
 uint8_t SW3_config(void)
 {
-
+	/**Clock gating activation for GPIOA*/
+	GPIO_clock_gating(GPIO_A);
+	/**Pin control configuration of GPIOA pin4 as GPIO with its pull-up resistor enabled*/
+	GPIO_pin_control_register(GPIO_A, SW3_bit, &pcr_sw_pullup);
+	/**Configures pin4 of GPIOA as input*/
+	GPIO_data_direction_pin(GPIO_A,GPIO_INPUT, SW3_bit);
+	return(TRUE);
 }
 
 uint8_t SW3_disable(void)
 {
-
+	/**Pin control configuration of GPIOC pin6 as GPIO with its pull-up resistor enabled*/
+	GPIO_pin_control_register(GPIO_A, SW3_bit, &pcr_sw_disable);
+	/**Configures pin6 of GPIOC as input*/
+	GPIO_data_direction_pin(GPIO_A,GPIO_OUTPUT, SW3_bit);
+	return(TRUE);
 }
 
 uint8_t sw_state(sw_name_t sw)
