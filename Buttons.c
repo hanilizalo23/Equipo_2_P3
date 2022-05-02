@@ -91,3 +91,12 @@ void Initialize_B6(void)
 	/**Configuration of GPIOC pin 10 as input*/
 	GPIO_data_direction_pin(GPIO_C,GPIO_INPUT,bit_10);
 }
+
+void Enable_sw2_and_sw3(void)
+{
+	SW2_config();
+	SW3_config();
+	/*Enable interrupts*/
+	NVIC_enable_interrupt_and_priotity(PORTA_IRQ, PRIORITY_8);
+	GPIO_callback_init(GPIO_A, gpioA_pb_interrupt);
+}
