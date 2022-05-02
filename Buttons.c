@@ -107,6 +107,61 @@ void gpioA_pb_interrupt(void)
 	Mode_on();
 }
 
+void gpioB_pb_interrupt(void)
+{
+	/*Reads which button is being pressed*/
+	uint32_t read_pb = GPIO_read_port(GPIO_B) & GPIOB_PB_MASK;
+	/*Keeps the value of the pin for the debounce function*/
+	uint8_t pin_debounce;
+	switch(read_pb)
+	{
+	case GPIOB_B2:
+		pin_debounce = bit_3;
+		B2_choose_function();
+		break;
+	default:
+		pin_debounce = bit_11;
+		B4_choose_function();
+		break;
+	}
+	debouncer(GPIO_B, pin_debounce);
+}
+
+void gpioC_pb_interrupt(void)
+{
+		/*Reads which button is being pressed*/
+		uint32_t read_pb = GPIO_read_port(GPIO_C) & GPIOC_PB_MASK;
+		/*Keeps the value of the pin for the debounce function*/
+		uint8_t pin_debounce;
+		switch(read_pb)
+		{
+		case GPIOC_B0:
+			pin_debounce = bit_5;
+			B0_choose_function();
+			debouncer(GPIO_C, pin_debounce);
+			break;
+		case GPIOC_B1:
+			pin_debounce = bit_4;
+			B1_choose_function();
+			debouncer(GPIO_C, pin_debounce);
+			break;
+		case GPIOC_B5:
+			pin_debounce = bit_11;
+			B5_choose_function();
+			debouncer(GPIO_C, pin_debounce);
+			break;
+		case GPIOC_B6:
+			pin_debounce = bit_10;
+			B6_choose_function();
+			debouncer(GPIO_C, pin_debounce);
+			break;
+		default:
+			pin_debounce = bit_6;
+			Mode_off();
+			break;
+		}
+}
+
 void gpioD_pb_interrupt(void)
 {
 	/**Unique for GPIO D*/
