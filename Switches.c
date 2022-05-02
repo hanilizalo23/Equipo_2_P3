@@ -11,6 +11,8 @@
 
 #include "MK64F12.h"
 #include "Switches.h"
+#include "GPIO.h"
+#include "Bits.h"
 
 #define NOTHING 0U
 
@@ -21,12 +23,22 @@ gpio_pin_control_register_t pcr_sw_disable = GPIO_MUX1;
 
 uint8_t SW2_config(void)
 {
-
+	/**Clock gating activation for GPIOC*/
+	GPIO_clock_gating(GPIO_C);
+	/**Pin control configuration of GPIOC pin6 as GPIO with its pull-up resistor enabled*/
+	GPIO_pin_control_register(GPIO_C, SW2_bit, &pcr_sw_pullup);
+	/**Configures pin6 of GPIOC as input*/
+	GPIO_data_direction_pin(GPIO_C,GPIO_INPUT, SW2_bit);
+	return(TRUE);
 }
 
 uint8_t SW2_disable(void)
 {
-
+	/**Pin control configuration of GPIOC pin6 as GPIO with its pull-up resistor enabled*/
+	GPIO_pin_control_register(GPIO_C, SW2_bit, &pcr_sw_disable);
+	/**Configures pin6 of GPIOC as input*/
+	GPIO_data_direction_pin(GPIO_C,GPIO_OUTPUT, SW2_bit);
+	return(TRUE);
 }
 
 uint8_t SW3_config(void)

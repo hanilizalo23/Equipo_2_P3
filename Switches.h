@@ -13,6 +13,9 @@
 #define SWITCHES_H_
 
 
+#include <GPIO.h>
+#include "Bits.h"
+
 #define SW2_bit bit_6
 #define SW3_bit bit_4
 
