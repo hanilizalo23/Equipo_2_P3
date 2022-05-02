@@ -26,7 +26,7 @@ static uint8_t g_actual_pin_status;
 static gpio_port_name_t g_gpio;
 static uint8_t g_pin;
 
-/*Helps to avoid problems with PortC caused by sw2 interrupt. When it gets to 50, the debouncer finishes*/
+/*Helps to avoid problems with PortC caused by SW2 interrupt. When it gets to 50, the debouncer finishes*/
 uint8_t g_counter;
 
 void check_pin_status(void)
@@ -57,4 +57,26 @@ void debouncer(gpio_port_name_t gpio, uint8_t pin)
 	//Enables PITs
 	PIT_clock_gating();
 	PIT_enable();
+
+	//Enables interrupt for PIT1
+	NVIC_enable_interrupt_and_priotity(PIT_CH0_IRQ, PRIORITY_2);
+	PIT_callback_init(PIT_0,check_pin_status);
+	PIT_delay(PIT_0, SYSTEM_CLOCK, CHECK_WAIT);
+	NVIC_global_enable_interrupts;
+
+	//Check the input till the status changes
+	while(FALSE == g_change_flag)
+	{
+
+	}
+
+	PIT_stop(PIT_0);
+	PIT_callback_init(PIT_0,wait_release);
+
+	//Wait for stabilization
+	PIT_delay(PIT_0, SYSTEM_CLOCK, RELEASE_WAIT);
+	while(FALSE == g_release_wait_end)
+	{
+
+	}
 }
