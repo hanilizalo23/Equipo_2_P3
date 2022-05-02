@@ -26,11 +26,17 @@ static uint8_t g_actual_pin_status;
 static gpio_port_name_t g_gpio;
 static uint8_t g_pin;
 
+/*Helps to avoid problems with PortC caused by sw2 interrupt. When it gets to 50, the debouncer finishes*/
 uint8_t g_counter;
 
 void check_pin_status(void)
 {
-
+	g_actual_pin_status  = GPIO_read_pin(g_gpio, g_pin);
+	g_counter ++;
+	if((g_initial_pin_status != g_actual_pin_status) || (TIMES == g_counter))
+	{
+		g_change_flag = TRUE;
+	}
 }
 
 void wait_release(void)
