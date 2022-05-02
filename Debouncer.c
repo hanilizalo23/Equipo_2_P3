@@ -48,5 +48,13 @@ void wait_release(void)
 
 void debouncer(gpio_port_name_t gpio, uint8_t pin)
 {
+	g_initial_pin_status = GPIO_read_pin(gpio, pin);
+	g_actual_pin_status  = GPIO_read_pin(gpio, pin);
+	g_gpio = gpio;
+	g_pin = pin;
+	g_counter = NOTHING;
 
+	//Enables PITs
+	PIT_clock_gating();
+	PIT_enable();
 }
