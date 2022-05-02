@@ -100,3 +100,16 @@ void Enable_sw2_and_sw3(void)
 	NVIC_enable_interrupt_and_priotity(PORTA_IRQ, PRIORITY_8);
 	GPIO_callback_init(GPIO_A, gpioA_pb_interrupt);
 }
+
+/*Ports interruptions*/
+void gpioA_pb_interrupt(void)
+{
+	Mode_on();
+}
+
+void gpioD_pb_interrupt(void)
+{
+	/**Unique for GPIO D*/
+	B3_choose_function();
+	debouncer(GPIO_D, bit_3);
+}
