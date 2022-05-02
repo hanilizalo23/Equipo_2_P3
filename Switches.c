@@ -63,5 +63,17 @@ uint8_t SW3_disable(void)
 
 uint8_t sw_state(sw_name_t sw)
 {
-
+	uint8_t sw_value = NOTHING;
+	switch(sw)
+		{
+			case(SW2):
+				sw_value = GPIO_read_pin(GPIO_C, SW2_bit);
+				break;
+			case(SW3):
+				sw_value = GPIO_read_pin(GPIO_A, SW3_bit);
+				break;
+			default:
+				return(FALSE);
+		}
+	return(sw_value);
 }
