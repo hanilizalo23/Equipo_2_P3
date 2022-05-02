@@ -1,15 +1,19 @@
-/*
- * NVIC.h
- *
- *  Created on: 11/08/2017
- *      Author: PhD. José Luis Pizano Escalante
+/**
+	\file
+	\brief
+		This is the source file for the NVIC device driver for Kinetis K64.
+		It contains some configuration functions and runtime functions.
+		It is implemented using  CMSIS Core functions
+	\author Nelida Hernández
+	\date	01/05/2022
+	\todo
+	    Pending interrupts and disable interrupts are not enable.
  */
 
 #ifndef NVIC_H_
 #define NVIC_H_
 
-/*Habilita IRQ*/
-void enable_irq (int irq);
+
 #include <stdint.h>
 #include "MK64F12.h"
 
@@ -134,5 +138,6 @@ void NVIC_enable_interrupt_and_priotity(interrupt_t interrupt_number, priority_l
  	 \todo Implement a mechanism to clear interrupts by a specific pin.
  */
 void NVIC_set_basepri_threshold(priority_level_t priority);
+
 
 #endif /* NVIC_H_ */

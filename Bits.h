@@ -1,8 +1,8 @@
 /*
- * Bits.h
+ * bits.h
  *
- *  Created on: 15/02/2022
- *      Author: PhD. José Luis Pizano Escalante
+ *  Created on: 01/05/2022
+ *      Author: Nelida Hernández
  */
 
 #ifndef BITS_H_
@@ -18,8 +18,8 @@ typedef enum {bit_0,  /*!< Bit 0 */
 			  bit_5,  /*!< Bit 5 */
 			  bit_6,  /*!< Bit 6 */
 			  bit_7,  /*!< Bit 7 */
-	          bit_8,  /*!< Bit 8 */
-	          bit_9,  /*!< Bit 9 */
+			  bit_8,  /*!< Bit 8 */
+			  bit_9,  /*!< Bit 9 */
 			  bit_10, /*!< Bit 10 */
 			  bit_11, /*!< Bit 11 */
 			  bit_12, /*!< Bit 12 */
@@ -40,12 +40,11 @@ typedef enum {bit_0,  /*!< Bit 0 */
 			  bit_27, /*!< Bit 27 */
 			  bit_28, /*!< Bit 28 */
 			  bit_29, /*!< Bit 29 */
-	          bit_30, /*!< Bit 30 */
+			  bit_30, /*!< Bit 30 */
 			  bit_31  /*!< Bit 31 */
 			} bit_t;
 
-
-typedef enum {FALSE, TRUE} boolean_t;
+typedef enum{FALSE, TRUE} boolean_t;
 /*! This definition is as a general definitions to bits turn-on or turn-off any bit*/
 typedef enum {BIT_OFF, BIT_ON} bit_on_off_t;
 

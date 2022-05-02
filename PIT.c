@@ -1,300 +1,147 @@
-/*
-* PIT.c
-*
-*  Created on: 19 feb 2022
-*      Author: Mauricio Peralta Osorio
-*/
+/**
+	\file 	PIT.c
+	\brief
+		Source file for the PIT.h for Kinetis K64.
+		It contains all the implementations for configuration and runtime functions.
+	\author Nelida Hernández
+	\date	01/05/2022
+ */
 
-#include <stdio.h>
-#include <stdint.h>
+#include "GPIO.h"
+#include "Bits.h"
 #include "MK64F12.h"
 #include "PIT.h"
-#include "Bits.h"
+#include "stdio.h"
 
 #define NOTHING 0U
+#define RESO 1U
 
-static void (*PIT_0_callback)(void) = 0;
-static void (*PIT_1_callback)(void) = 0;
-static void (*PIT_2_callback)(void) = 0;
-static void (*PIT_3_callback)(void) = 0;
+static void (*pit0_callback)(void) = NOTHING;
+static void (*pit1_callback)(void) = NOTHING;
+static void (*pit2_callback)(void) = NOTHING;
+static void (*pit3_callback)(void) = NOTHING;
 
-pit_interrupt_flags_t pit_interrupt_flags = {0};
+const uint8_t mask_1 = 0x01;
+const uint8_t mask_2 = 0x02;
+const uint8_t mask_4 = 0x04;
+const uint8_t mask_8 = 0x08;
 
-void PIT_delay(PIT_timer_t pit_timer, My_float_pit_t system_clock, My_float_pit_t delay) /**Delay for the PIT*/
+uint8_t g_interrupt_flag = 0x00;
+
+void PIT_delay(PIT_timer_t pit_timer, My_float_pit_t system_clock , My_float_pit_t delay)
 {
-	float LDVALUE = 0.0F;
-	float clock_time = 0.0F;
-	system_clock = system_clock / 2; /**Dividing the frequency of the K64 for the PIT*/
-	clock_time = (1 / system_clock); /**Time is the inverse of the frequency*/
-	LDVALUE = (delay / clock_time); /**Dividing the desired delay by the time of the clock*/
-	LDVALUE = LDVALUE - 1; /**Subtracting one, because starts from 0*/
-
-     switch(pit_timer) /** PIT to choose*/
-           {
-           case PIT_0:/** PIT 0 is selected*/
-                PIT->CHANNEL[0].LDVAL = LDVALUE;
-                PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK;
-                break;
-           case PIT_1:/** PIT 1 is selected*/
-        	   	PIT->CHANNEL[1].LDVAL = LDVALUE;
-        	   	PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TEN_MASK;
-                break;
-           case PIT_2:/** PIT 2 is selected*/
-        	   	PIT->CHANNEL[2].LDVAL = LDVALUE;
-        	   	PIT->CHANNEL[2].TCTRL |= PIT_TCTRL_TEN_MASK;
-                break;
-           case PIT_3:/** PIT 3 is selected*/
-        	    PIT->CHANNEL[3].LDVAL = LDVALUE;
-        	    PIT->CHANNEL[3].TCTRL |= PIT_TCTRL_TEN_MASK;
-                break;
-           default:/**If doesn't exist the option do nothing*/
-           break;
-           }
+		uint32_t timer_start_value = (uint32_t)((((system_clock) * delay)) - RESO);
+		PIT_clear_interrupt_flag();
+		//LOADS TIMER START VALUE
+		PIT->CHANNEL[pit_timer].LDVAL = timer_start_value;
+		//ENABLES PIT INTERRUPTION
+		PIT_enable_interrupt(pit_timer);
+		//TIMER ENABLE
+		PIT->CHANNEL[pit_timer].TCTRL |= PIT_TCTRL_TEN_MASK;
 }
 
-void PIT_clock_gating(void) /**Turn on the clock for the PIT*/
+void PIT_clock_gating(void)
 {
+	//ENABLES CLOCK GATE CONTROL FOR PIT
 	SIM->SCGC6 |= SIM_SCGC6_PIT_MASK;
 }
 
-uint8_t PIT_get_interrupt_flag_status(PIT_timer_t pit) /**Status of the PIT flag*/
+uint8_t PIT_get_interrupt_flag_status(void)
 {
-	uint8_t flag_status = 0;
-	switch (pit)
-	{
-		case PIT_0:
-			flag_status = pit_interrupt_flags.flag_PIT_CH0;
-		break;
-
-		case PIT_1:
-			flag_status = pit_interrupt_flags.flag_PIT_CH1;
-		break;
-
-		case PIT_2:
-			flag_status = pit_interrupt_flags.flag_PIT_CH2;
-		break;
-
-		case PIT_3:
-			flag_status = pit_interrupt_flags.flag_PIT_CH3;
-		break;
-
-		default:
-		break;
-	}
-	return flag_status;
+	//RETURNS THE VALUE OF THE FLAG CREATED
+	return(g_interrupt_flag);
 }
 
-void PIT_clear_interrupt_flag(PIT_timer_t pit) /**Clears the flag of the interrupt*/
+void PIT_clear_interrupt_flag(void)
 {
-	switch (pit)
-	{
-		case PIT_0:
-			pit_interrupt_flags.flag_PIT_CH0 = 0;
-		break;
-
-		case PIT_1:
-			pit_interrupt_flags.flag_PIT_CH1 = 0;
-		break;
-
-		case PIT_2:
-			pit_interrupt_flags.flag_PIT_CH2 = 0;
-		break;
-
-		case PIT_3:
-			pit_interrupt_flags.flag_PIT_CH3 = 0;
-		break;
-
-		default:
-		break;
-	}
+	//flag value becomes 0
+	g_interrupt_flag = 0x00;
 }
 
-void PIT_callback_init(PIT_timer_t pit, void(*handler)(void)) /**Callbacks for the PIT*/
+void PIT_enable(void)
 {
-	switch (pit)
-	{
-		case PIT_0:
-			PIT_0_callback = handler;
-		break;
-
-		case PIT_1:
-			PIT_1_callback = handler;
-		break;
-
-		case PIT_2:
-			PIT_2_callback = handler;
-		break;
-
-		case PIT_3:
-			PIT_3_callback = handler;
-		break;
-
-		default:
-		break;
-	}
-}
-
-void PIT_enable_interrupt(PIT_timer_t pit) /**Enabling the interrupt and starting the count*/
-{
-	switch (pit)
-		{
-			case PIT_0:
-				PIT->CHANNEL[0].TCTRL = PIT_TCTRL_TIE_MASK;
-			break;
-
-			case PIT_1:
-				PIT->CHANNEL[1].TCTRL = PIT_TCTRL_TIE_MASK;
-			break;
-
-			case PIT_2:
-				PIT->CHANNEL[2].TCTRL = PIT_TCTRL_TIE_MASK;
-			break;
-
-			case PIT_3:
-				PIT->CHANNEL[3].TCTRL = PIT_TCTRL_TIE_MASK;
-			break;
-
-			default:
-			break;
-		}
-}
-
-void PIT_clear_interrupt(PIT_timer_t pit) /**Cleans the interruption of the PIT*/
-{
-	uint32_t dummyRead = NOTHING;
-
-		switch (pit)
-		{
-			case PIT_0:
-				PIT->CHANNEL[0].TFLG |= PIT_TFLG_TIF_MASK;
-				dummyRead = PIT->CHANNEL[0].TCTRL; /**Read control register for clear PIT flag, this is silicon bug*/
-			break;
-
-			case PIT_1:
-				PIT->CHANNEL[1].TFLG |= PIT_TFLG_TIF_MASK;
-				dummyRead = PIT->CHANNEL[1].TCTRL; /**Read control register for clear PIT flag, this is silicon bug*/
-			break;
-
-			case PIT_2:
-				PIT->CHANNEL[2].TFLG |= PIT_TFLG_TIF_MASK;
-				dummyRead = PIT->CHANNEL[2].TCTRL; /**Read control register for clear PIT flag, this is silicon bug*/
-			break;
-
-			case PIT_3:
-				PIT->CHANNEL[3].TFLG |= PIT_TFLG_TIF_MASK;
-				dummyRead = PIT->CHANNEL[3].TCTRL; /**Read control register for clear PIT flag, this is silicon bug*/
-			break;
-
-			default:
-			break;
-		}
-}
-
-void PIT_enable(void) /**Enables the controls and timer clocks for the PITs*/
-{
-	PIT->MCR &= ~PIT_MCR_MDIS_MASK;
+	//ENABLES PIT
+	PIT->MCR &= ~(PIT_MCR_MDIS_MASK);
 	PIT->MCR |= PIT_MCR_FRZ_MASK;
 }
 
-void PIT_start(PIT_timer_t pit_timer)  /**Starts the counting of the PIT*/
+void PIT_enable_interrupt(PIT_timer_t pit)
 {
-	switch (pit_timer)
-	{
+	//PIT FLAG MASK IS CLEARED
+	PIT->CHANNEL[pit].TFLG |= PIT_TFLG_TIF_MASK;
+
+	//ENABLE THE INTERRUPT
+	PIT->CHANNEL[pit].TCTRL |= PIT_TCTRL_TIE_MASK;
+}
+
+void PIT_stop(PIT_timer_t pit)
+{
+	PIT->CHANNEL[pit].TCTRL &= ~(PIT_TCTRL_TEN_MASK);
+}
+
+void PIT_callback_init(PIT_timer_t pit, void(*handler)(void))
+{
+	switch(pit)
+		{
 		case PIT_0:
-			PIT->CHANNEL[0].TCTRL |= PIT_TCTRL_TEN_MASK;
-		break;
-
+			pit0_callback = handler;
+			break;
 		case PIT_1:
-			PIT->CHANNEL[1].TCTRL |= PIT_TCTRL_TEN_MASK;
-		break;
-
+			pit1_callback = handler;
+			break;
 		case PIT_2:
-			PIT->CHANNEL[2].TCTRL |= PIT_TCTRL_TEN_MASK;
-		break;
-
-		case PIT_3:
-			PIT->CHANNEL[3].TCTRL |= PIT_TCTRL_TEN_MASK;
-		break;
-
+			pit2_callback = handler;
+			break;
 		default:
-		break;
+			pit3_callback = handler;
+			break;
+		}
+}
+
+void PIT0_IRQHandler()
+{
+	volatile uint32_t dummyRead;
+	PIT->CHANNEL[0].TFLG |= PIT_TFLG_TIF_MASK;
+	dummyRead = PIT->CHANNEL[0].TCTRL;
+	if(pit0_callback)
+	{
+		pit0_callback();
+	}
+	g_interrupt_flag |= mask_1;
+}
+
+void PIT1_IRQHandler()
+{
+	volatile uint32_t dummyRead;
+	PIT->CHANNEL[1].TFLG |= PIT_TFLG_TIF_MASK;
+	dummyRead = PIT->CHANNEL[1].TCTRL;
+	g_interrupt_flag |= mask_2;
+	if(pit1_callback)
+	{
+		pit1_callback();
 	}
 }
 
-void PIT_stop(PIT_timer_t pit_timer) /**Stops the counting of the PIT*/
+void PIT2_IRQHandler()
 {
-	switch (pit_timer)
+	volatile uint32_t dummyRead;
+	PIT->CHANNEL[2].TFLG |= PIT_TFLG_TIF_MASK;
+	dummyRead = PIT->CHANNEL[2].TCTRL;
+	if(pit2_callback)
 	{
-		case PIT_0:
-			PIT->CHANNEL[0].TCTRL &= ~(PIT_TCTRL_TEN_MASK);
-		break;
-
-		case PIT_1:
-			PIT->CHANNEL[1].TCTRL &= ~(PIT_TCTRL_TEN_MASK);
-		break;
-
-		case PIT_2:
-			PIT->CHANNEL[2].TCTRL &= ~(PIT_TCTRL_TEN_MASK);
-		break;
-
-		case PIT_3:
-			PIT->CHANNEL[3].TCTRL &= ~(PIT_TCTRL_TEN_MASK);
-		break;
-
-		default:
-		break;
+		pit2_callback();
 	}
+	g_interrupt_flag |= mask_4;
 }
 
-void delay_PIT(PIT_timer_t pit, My_float_pit_t delay) /**Little counting*/
+void PIT3_IRQHandler()
 {
-	if(PIT_0 == pit)
+	volatile uint32_t dummyRead;
+	PIT->CHANNEL[3].TFLG |= PIT_TFLG_TIF_MASK;
+	dummyRead = PIT->CHANNEL[3].TCTRL;
+	if(pit3_callback)
 	{
-		for(int i = delay; i > 0; i--){};
+		pit3_callback();
 	}
-}
-
-/** ISRs of the PITs*/
-void PIT0_IRQHandler(void)
-{
-	if(PIT_0_callback)
-	{
-		PIT_0_callback();
-	}
-
-	PIT_clear_interrupt_flag(PIT_0);
-	PIT_clear_interrupt(PIT_0);
-}
-
-void PIT1_IRQHandler(void)
-{
-	if(PIT_1_callback)
-	{
-		PIT_1_callback();
-	}
-
-	PIT_clear_interrupt_flag(PIT_1);
-	PIT_clear_interrupt(PIT_1);
-}
-
-void PIT2_IRQHandler(void)
-{
-	if(PIT_2_callback)
-	{
-		PIT_2_callback();
-	}
-
-	PIT_clear_interrupt_flag(PIT_2);
-	PIT_clear_interrupt(PIT_2);
-}
-
-void PIT3_IRQHandler(void)
-{
-	if(PIT_3_callback)
-	{
-		PIT_3_callback();
-	}
-
-	PIT_clear_interrupt_flag(PIT_3);
-	PIT_clear_interrupt(PIT_3);
+	g_interrupt_flag |= mask_8;
 }
