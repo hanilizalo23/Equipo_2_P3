@@ -43,5 +43,18 @@ void Initialize_B5(void);
 void Initialize_B6(void);
 void Enable_sw2_and_sw3(void);
 
+/*Port reading functions*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 This group of functions are called when a button is pressed, and determine which
+ 	 	 	 one is.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void gpioA_pb_interrupt(void);
+void gpioB_pb_interrupt(void);
+void gpioC_pb_interrupt(void);
+void gpioD_pb_interrupt(void);
+
 
 #endif /* BUTTONS_H_ */
