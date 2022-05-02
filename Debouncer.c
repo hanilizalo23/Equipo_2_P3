@@ -41,7 +41,9 @@ void check_pin_status(void)
 
 void wait_release(void)
 {
-
+	g_release_wait_end = TRUE;
+	PIT_clear_interrupt_flag();
+	PIT_stop(PIT_0);
 }
 
 void debouncer(gpio_port_name_t gpio, uint8_t pin)
