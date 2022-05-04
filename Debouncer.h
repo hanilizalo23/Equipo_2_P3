@@ -13,7 +13,7 @@
 #include "PIT.h"
 #include "GPIO.h"
 
-#define SYSTEM_CLOCK (21000000U)
+#define SYSTEM_CLOCK (60000000U)
 
 /*Time for delay on the first stage: verify key status change*/
 #define CHECK_WAIT   (0.005F)
