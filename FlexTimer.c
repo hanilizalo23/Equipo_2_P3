@@ -1,0 +1,40 @@
+/**
+	\file 	FlexTimer.c
+	\brief
+	 	Device driver for the FlexTimer. It contains the functions to
+	 	configure and manipulate each FTM.
+	\author Mauricio Peralta
+	\date	01/05/2022
+ **/
+
+#include "FlexTimer.h"
+#include "MK64F12.h"
+#include "Bits.h"
+#include "GPIO.h"
+#include "stdio.h"
+
+#define NOTHING 0U
+
+static void (*ftm_0_callback)(void) = NOTHING;
+static void (*ftm_1_callback)(void) = NOTHING;
+static void (*ftm_2_callback)(void) = NOTHING;
+static void (*ftm_3_callback)(void) = NOTHING;
+
+void FlexTimer_clock_gating(ftm_name_t flextimer)
+{
+	switch(flextimer)
+	{
+		case FTM_0:
+			SIM->SCGC6 |= SIM_SCGC6_FTM0(1);
+			break;
+		case FTM_1:
+			SIM->SCGC6 |= SIM_SCGC6_FTM1(1);
+			break;
+		case FTM_2:
+			SIM->SCGC6 |= SIM_SCGC6_FTM2(1);
+			break;
+		default:
+			SIM->SCGC3 |= SIM_SCGC3_FTM3(1);
+			break;
+	}
+}
