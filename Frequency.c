@@ -28,8 +28,10 @@ static uint32_t g_diff;
 /*Stores many samples of the frequency to obtain an average and more precise frequency*/
 static float g_frequency[FREQ_TOTAL_SAMPLES] = {(0.00F)};
 
+/*Counter for samples*/
 static uint32_t g_freq_sample = NOTHING;
 
+/*Strings for LCD*/
 uint8_t g_str_khz[] = "KHz";
 uint8_t g_str_hz[] = "Hz";
 
@@ -106,8 +108,21 @@ void Increase_or_decrease_freq(increase_or_dicrease_frq_t increase_or_dicrease, 
 
 /*To stop the signal*/
 void Generate_trial_signal_stop(void)
-{}
+{
+	FlexTimer_disable_channel(FTM_3,CH_4);
+}
 
 /*Functions to read frequency*/
 void Frequency_read_initilize(void)
-{}
+{
+	/*FTM2 CH0 configuration to read*/
+	gpio_pin_control_register_t pcr_gpio = GPIO_MUX1;
+	GPIO_clock_gating(GPIO_B);
+	GPIO_pin_control_register(GPIO_B,bit_18,&pcr_gpio);
+	GPIO_data_direction_pin(GPIO_B, GPIO_OUTPUT, bit_18);
+	FlexTimer_clock_gating(FTM_2);
+	FlexTimer_configure_channel(FTM_2,CH_0,&g_configure_ftm_freq);
+	FTM_callback_init(FTM_2,GetFrequency);
+	NVIC_enable_interrupt_and_priotity(FTM2_IRQ,PRIORITY_9);
+	NVIC_global_enable_interrupts;
+}

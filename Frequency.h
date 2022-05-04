@@ -65,4 +65,5 @@ void Generate_trial_signal_stop(void);
  	 \return void
  */
 void Frequency_read_initilize(void);
+
 #endif /* FREQUENCY_H_ */
