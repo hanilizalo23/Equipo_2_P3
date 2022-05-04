@@ -38,3 +38,44 @@ void FlexTimer_clock_gating(ftm_name_t flextimer)
 			break;
 	}
 }
+
+void FlexTimer_configure_channel(ftm_name_t flextimer, ftm_channel_name_t channel, const ftm_channel_config_t *ch_configuration)
+{
+	switch(flextimer)
+	{
+		case FTM_0:
+			FTM0_configure_ch(channel,ch_configuration);
+			break;
+		case FTM_1:
+			FTM1_configure_ch(channel,ch_configuration);
+			break;
+		case FTM_2:
+			FTM2_configure_ch(channel,ch_configuration);
+			break;
+		default:
+			FTM3_configure_ch(channel,ch_configuration);
+			break;
+	}
+}
+
+void FlexTimer_set_mod(ftm_name_t flextimer,uint16_t value)
+{
+	switch(flextimer)
+	{
+		case FTM_0:
+			FTM0->MOD = value;
+			break;
+		case FTM_1:
+			FTM1->MOD = value;
+			break;
+		case FTM_2:
+			FTM2->MOD = value;
+			break;
+		default:
+			FTM3->MOD = value;
+			break;
+	}
+}
+
+void FlexTimer_change_cnv(ftm_name_t flextimer,ftm_channel_name_t channel,uint16_t value)
+{}
