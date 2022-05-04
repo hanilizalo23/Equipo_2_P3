@@ -427,11 +427,77 @@ void B4_choose_function(void)
 /*When the B5 is pressed, it chooses which functions will be done according to the actual stage*/
 void B5_choose_function(void)
 {
-
+	switch(g_menu_level)
+	{
+	case MAIN_MENU:
+		break;
+	case SUB1_RGB_MANUAL:
+		/*If the mode is on, the changes the green bright value*/
+		if(g_mode_on)
+		{
+			g_bright_level = RGB_led_change_bright(GREEN,RGB_MANUAL_BR_CHANGE,INCREASE);
+			LCD_nokia_goto_xy(33,3);
+			LCD_nokia_send_int(BR_FACTOR,g_bright_level,BR_DIGITS);
+		}
+		break;
+	case SUB2_RGB_ADC:
+		break;
+	case SUB3_RGB_SEQ:
+		/*Saves a new value (purple) in the sequence array when the mode is off*/
+		if(FALSE == g_mode_on)
+		{
+			if(MAX_SEQ_VAL == g_sequence_n)
+			{
+				RGB_sequence();
+			}
+			g_colors_sequence [g_sequence_n] = PURPLE_RGB;
+			LCD_nokia_send_char('M');
+			LCD_nokia_send_char(' ');
+			g_sequence_n ++;
+		}
+		break;
+	case SUB4_RGB_FREQ:
+		break;
+	default:
+		break;
+	}
 }
 
 /*When the B6 is pressed, it chooses which functions will be done according to the actual stage*/
 void B6_choose_function(void)
 {
-
+	switch(g_menu_level)
+	{
+	case MAIN_MENU:
+		break;
+	case SUB1_RGB_MANUAL:
+		/*If the mode is on, the changes the green bright value*/
+		if(g_mode_on)
+		{
+			g_bright_level = RGB_led_change_bright(GREEN,RGB_MANUAL_BR_CHANGE,DECREASE);
+			LCD_nokia_goto_xy(33,3);
+			LCD_nokia_send_int(BR_FACTOR,g_bright_level,BR_DIGITS);
+		}
+		break;
+	case SUB2_RGB_ADC:
+		break;
+	case SUB3_RGB_SEQ:
+		/*Saves a new value (white) in the sequence array when the mode is off*/
+		if(FALSE == g_mode_on)
+		{
+			if(MAX_SEQ_VAL == g_sequence_n)
+			{
+				RGB_sequence();
+			}
+			g_colors_sequence [g_sequence_n] = WHITE_RGB;
+			LCD_nokia_send_char('B');
+			LCD_nokia_send_char(' ');
+			g_sequence_n ++;
+		}
+		break;
+	case SUB4_RGB_FREQ:
+		break;
+	default:
+		break;
+	}
 }

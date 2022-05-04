@@ -15,6 +15,17 @@
 #include "MK64F12.h"
 #include <stdio.h>
 
+//Number of values on the initial RGB sequence
+#define INIT_SEQ_VAL 	(4U)
+//Max. number of values on the sequence array
+#define MAX_SEQ_VAL		(10U)
+//Change of the trial frequency (1KHz)
+#define FRQ_CHANGE 		(1000.0F)
+//Maximun factor of the bright level
+#define BR_FACTOR		(100U)
+//Number of digits (max) of the bright level
+#define BR_DIGITS		(3U)
+
 //Enumeration for the program stages
 typedef enum{
 	START,
