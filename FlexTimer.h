@@ -32,6 +32,16 @@
 #define COMBINE_SHIFT 		(7U)
 #define DECAPEN_SHIFT		(8U)
 
+#define DISABLE_CH								(FTM_CnSC_CHIE(0) | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(0))
+
+#define INPUT_CAPTURE_RE						(CAPTURE_MODE | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+#define INPUT_CAPTURE_FE						(CAPTURE_MODE | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define INPUT_CAPTURE_RE_OR_FE					(CAPTURE_MODE | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(1))
+
+#define OUTPUT_COMP_TOGGLE						(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+#define OUTPUT_COMP_CLEAR						(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define OUTPUT_COMP_SET							(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(1))
+
 #define SYSTEM_CLOCK_FTM (60000000.0F)
 
 typedef enum{FTM_0,
@@ -138,5 +148,11 @@ void FTM1_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch
  	 \return void
  */
 void FTM2_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
-
+/*!
+ 	 \brief	 Configures the specified channel of the FTM3.
+ 	 \param[in]  channel.
+ 	 \param[in]  *ch_configuration = pointer to the configuration structure.
+ 	 \return void
+ */
+void FTM3_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
 #endif /* FLEXTIMER_H_ */
