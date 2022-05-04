@@ -107,12 +107,40 @@ void MainMenu_in(void)
 
 void RGB_manual(void)
 {
-
+	g_menu_level = SUB1_RGB_MANUAL;
+	LCD_nokia_clear();
+	LCD_nokia_goto_xy(0,0); /*! It establishes the position to print the messages in the LCD*/
+	LCD_nokia_send_string(&g_str_submenu1[0]); /*! It prints a string stored in an array*/
+	LCD_nokia_goto_xy(0,5);
+	LCD_nokia_send_string(&g_str_off[0]);
+	LCD_nokia_goto_xy(10,2);
+	/*Writes R G B to display the actual bright level of each color*/
+	LCD_nokia_send_char('R');
+	LCD_nokia_goto_xy(40,2);
+	LCD_nokia_send_char('G');
+	LCD_nokia_goto_xy(70,2);
+	LCD_nokia_send_char('B');
+	/*Displays initial bright levels of each color*/
+	LCD_nokia_goto_xy(10,3);
+	LCD_nokia_send_char('0');
+	LCD_nokia_goto_xy(40,3);
+	LCD_nokia_send_char('0');
+	LCD_nokia_goto_xy(70,3);
+	LCD_nokia_send_char('0');
+	LCD_nokia_goto_xy(20,4);
 }
 
 void RGB_adc(void)
 {
-
+	g_menu_level = SUB2_RGB_ADC;
+	LCD_nokia_clear();
+	LCD_nokia_goto_xy(12,0); /*! It establishes the position to print the messages in the LCD*/
+	LCD_nokia_send_string(&g_str_submenu2[0]); /*! It prints a string stored in an array*/
+	LCD_nokia_goto_xy(0,5);
+	LCD_nokia_send_string(&g_str_off[0]);
+	/*Sends the word "Voltaje" to print te actual voltage on the LCD*/
+	LCD_nokia_goto_xy(0,2);
+	LCD_nokia_send_string(&g_str_voltaje[0]);
 }
 
 void RGB_sequence(void)
