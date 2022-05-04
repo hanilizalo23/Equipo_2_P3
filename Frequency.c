@@ -158,3 +158,22 @@ void GetFrequency(void)
 			}
 	}
 }
+
+void print_frequency(void)
+{
+	float freq = read_Frequency();
+	float khz_flag = freq / KHZ_DIVISOR;
+	/*If they are kHz or Hz*/
+	if(MIN_KHZ < khz_flag)
+	{
+		LCD_nokia_goto_xy(15,3);
+		LCD_nokia_send_float(KHZ_DIVISOR_10, freq, DIGITS_NUMBER,DIGITS_NUMBER);
+		LCD_nokia_send_string(&g_str_khz[0]);
+	}
+	else
+	{
+		LCD_nokia_goto_xy(15,3);
+		LCD_nokia_send_float(HZ_DIVISOR_10, freq, DIGITS_NUMBER,DIGITS_NUMBER);
+		LCD_nokia_send_string(&g_str_hz[0]);
+	}
+}

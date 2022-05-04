@@ -72,5 +72,12 @@ void Frequency_read_initilize(void);
  	 \return void
  */
 void GetFrequency(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Displays the frequency read on the LCD.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void print_frequency(void);
 
 #endif /* FREQUENCY_H_ */
