@@ -64,12 +64,45 @@ void Init_all(void)
 
 void Start(void)
 {
-
+	g_menu_level = START;
+	LCD_nokia_clear();
+	/*Start image*/
+	LCD_nokia_bitmap(ITESO);
+	/*If the program just started running, then the sequence will be shown*/
+	if(FALSE == g_start_system)
+	{
+		RGB_led_start_sequence(&initial_sequence[0],INIT_SEQ_VAL,STOP_SEQ);
+	}
+	/*Initialize first button to allow interruption*/
+	Initialize_B0();
+	g_start_system = TRUE;
 }
 
 void MainMenu_in(void)
 {
-
+	RGB_led_stop_sequence();	//To make sure the RGB stops and clears
+	RGB_led_turn_off();
+	Mode_off(); 				//To make sure the last function is stopped
+	g_menu_level = MAIN_MENU;
+	g_mode_on = FALSE;
+	LCD_nokia_clear();
+	/*Initialize all buttons interruptions*/
+	Initialize_B1();
+	Initialize_B2();
+	Initialize_B3();
+	Initialize_B4();
+	Initialize_B5();
+	Initialize_B6();
+	Enable_sw2_and_sw3();
+	/*Displays submenus options on the LCD*/
+	LCD_nokia_goto_xy(0,1); /*! It establishes the position to print the messages in the LCD*/
+	LCD_nokia_send_string(&g_str_submenu1[0]); /*! It print a string stored in an array*/
+	LCD_nokia_goto_xy(12,2);
+	LCD_nokia_send_string(&g_str_submenu2[0]);
+	LCD_nokia_goto_xy(12,3);
+	LCD_nokia_send_string(&g_str_submenu3[0]);
+	LCD_nokia_goto_xy(10,4);
+	LCD_nokia_send_string(&g_str_submenu4[0]);
 }
 
 void RGB_manual(void)
