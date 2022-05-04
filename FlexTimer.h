@@ -22,6 +22,15 @@
 #define DECAPEN_ON			0x100
 #define CAPTURE_MODE    	0x200
 
+#define CNSC_MASK			0x3C
+#define CPWNS_MASK			0x40
+#define COMBINE_MASK		0x80
+#define DECAPEN_MASK		0x100
+#define CAPTURE_MODE_MASK   0x200
+
+#define CPWNS_SHIFT 		(6U)
+#define COMBINE_SHIFT 		(7U)
+#define DECAPEN_SHIFT		(8U)
 
 #define SYSTEM_CLOCK_FTM (60000000.0F)
 
@@ -41,6 +50,10 @@ typedef enum{CH_0,
 			CH_7
 }ftm_channel_name_t;
 
+typedef enum{
+	DISABLE,
+	ENABLE
+}channel_enable_t;
 
 typedef struct{
 	uint32_t ftm_mode;
@@ -104,5 +117,13 @@ void FlexTimer_set_mod(ftm_name_t flextimer,uint16_t value);
  	 \return void
  */
 void FlexTimer_change_cnv(ftm_name_t flextimer,ftm_channel_name_t channel,uint16_t value);
+/*!
+ 	 \brief	 Configures the specified channel of the FTM0.
+ 	 \param[in]  channel.
+ 	 \param[in]  *ch_configuration = pointer to the configuration structure.
+ 	 \return void
+ */
+void FTM0_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
+
 
 #endif /* FLEXTIMER_H_ */

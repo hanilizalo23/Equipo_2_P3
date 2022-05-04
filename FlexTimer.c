@@ -115,3 +115,76 @@ void FTM_callback_init(ftm_name_t flextimer,void (*handler)(void))
 		}
 }
 
+void FTM0_configure_ch(ftm_channel_name_t channel, const ftm_channel_config_t *ch_configuration)
+{
+	gpio_pin_control_register_t pcr_ftm_pin = GPIO_MUX4;
+	uint32_t cpwns_flag = ((ch_configuration->ftm_mode & CPWNS_MASK) >> CPWNS_SHIFT);
+	uint32_t combine_flag = (((ch_configuration->ftm_mode & COMBINE_MASK) >> COMBINE_SHIFT) | ch_configuration->ftm_enable_combine);
+	uint32_t decapen_flag = ((ch_configuration->ftm_mode & DECAPEN_MASK) >> DECAPEN_SHIFT);
+	GPIO_clock_gating(GPIO_C);
+	GPIO_clock_gating(GPIO_D);
+	if(FALSE == (ch_configuration->ftm_mode & CAPTURE_MODE))
+	{
+		FTM0->CONF = FTM_CONF_BDMMODE(3);
+		FTM0->FMS = 0x00;
+		FTM0->MODE |= (FTM_MODE_FTMEN(0) | FTM_MODE_WPDIS(1));
+		FTM0->CNTIN = 0x00;
+	}
+	switch(channel)
+	{
+		case CH_0:
+			GPIO_pin_control_register(GPIO_C,bit_1,&pcr_ftm_pin);
+			FTM0->CONTROLS[0].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[0].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			FTM0->COMBINE |= (FTM_COMBINE_COMBINE0(combine_flag) | FTM_COMBINE_COMP0(ch_configuration->ftm_enable_complement) | FTM_COMBINE_DECAPEN0(decapen_flag));
+			break;
+		case CH_1:
+			GPIO_pin_control_register(GPIO_C,bit_2,&pcr_ftm_pin);
+			FTM0->CONTROLS[1].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[1].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+		case CH_2:
+			GPIO_pin_control_register(GPIO_C,bit_3,&pcr_ftm_pin);
+			FTM0->CONTROLS[2].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[2].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			FTM0->COMBINE |= (FTM_COMBINE_COMBINE1(combine_flag) | FTM_COMBINE_COMP1(ch_configuration->ftm_enable_complement) | FTM_COMBINE_DECAPEN1(decapen_flag));
+			break;
+		case CH_3:
+			GPIO_pin_control_register(GPIO_C,bit_4,&pcr_ftm_pin);
+			FTM0->CONTROLS[3].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[3].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+		case CH_4:
+			GPIO_pin_control_register(GPIO_D,bit_4,&pcr_ftm_pin);
+			FTM0->CONTROLS[4].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[4].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			FTM0->COMBINE |= (FTM_COMBINE_COMBINE2(combine_flag) | FTM_COMBINE_COMP2(ch_configuration->ftm_enable_complement) | FTM_COMBINE_DECAPEN2(decapen_flag));
+			break;
+		case CH_5:
+			GPIO_pin_control_register(GPIO_D,bit_5,&pcr_ftm_pin);
+			FTM0->CONTROLS[5].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[5].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+		case CH_6:
+			GPIO_pin_control_register(GPIO_D,bit_6,&pcr_ftm_pin);
+			FTM0->CONTROLS[6].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[6].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			FTM0->COMBINE |= (FTM_COMBINE_COMBINE3(combine_flag) | FTM_COMBINE_COMP3(ch_configuration->ftm_enable_complement) | FTM_COMBINE_DECAPEN3(decapen_flag));
+			break;
+		default:
+			GPIO_pin_control_register(GPIO_D,bit_7,&pcr_ftm_pin);
+			FTM0->CONTROLS[7].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM0->CONTROLS[7].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+	}
+	if(FALSE == (ch_configuration->ftm_mode & CAPTURE_MODE))
+	{
+		FTM0->CONTROLS[channel].CnV = ch_configuration->ftm_value;
+	}
+	if(ch_configuration->ftm_enable_deadtime)
+	{
+		FTM0->DEADTIME = ch_configuration->ftm_dtval;
+	}
+	FTM0->SC = (FTM_SC_CLKS (ch_configuration->ftm_clocks)| FTM_SC_PS(ch_configuration->ftm_prescaler) | FTM_SC_CPWMS(cpwns_flag) | FTM_SC_TOIE(ch_configuration->ftm_enable_toie));
+}
+
