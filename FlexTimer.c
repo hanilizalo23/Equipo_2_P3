@@ -188,3 +188,49 @@ void FTM0_configure_ch(ftm_channel_name_t channel, const ftm_channel_config_t *c
 	FTM0->SC = (FTM_SC_CLKS (ch_configuration->ftm_clocks)| FTM_SC_PS(ch_configuration->ftm_prescaler) | FTM_SC_CPWMS(cpwns_flag) | FTM_SC_TOIE(ch_configuration->ftm_enable_toie));
 }
 
+void FTM1_configure_ch(ftm_channel_name_t channel, const ftm_channel_config_t *ch_configuration)
+{
+	gpio_pin_control_register_t pcr_ftm_pin = GPIO_MUX3;
+	uint32_t cpwns_flag = ((ch_configuration->ftm_mode & CPWNS_MASK) >> CPWNS_SHIFT);
+	uint32_t combine_flag = ((ch_configuration->ftm_mode & COMBINE_MASK) >> COMBINE_SHIFT);
+	uint32_t decapen_flag = ((ch_configuration->ftm_mode & DECAPEN_MASK) >> DECAPEN_SHIFT);
+	GPIO_clock_gating(GPIO_A);
+	GPIO_clock_gating(GPIO_D);
+	if(FALSE == (ch_configuration->ftm_mode & CAPTURE_MODE))
+	{
+		FTM1->CONF = FTM_CONF_BDMMODE(3);
+		FTM1->FMS = 0x00;
+		FTM1->MODE |= (FTM_MODE_FTMEN(0) | FTM_MODE_WPDIS(1));
+		FTM1->CNTIN = 0x00;
+	}
+	switch(channel)
+	{
+		case CH_0:
+			GPIO_pin_control_register(GPIO_A,bit_12,&pcr_ftm_pin);
+			FTM1->CONTROLS[0].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM1->CONTROLS[0].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			FTM1->COMBINE |= (FTM_COMBINE_COMBINE0(combine_flag) | FTM_COMBINE_COMBINE0(ch_configuration->ftm_enable_complement) | FTM_COMBINE_DECAPEN0(decapen_flag));
+			break;
+		case CH_1:
+			GPIO_pin_control_register(GPIO_A,bit_13,&pcr_ftm_pin);
+			FTM1->CONTROLS[1].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM1->CONTROLS[1].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+		default:
+			GPIO_pin_control_register(GPIO_D,bit_7,&pcr_ftm_pin);
+			FTM1->CONTROLS[0].CnSC |= (ch_configuration->ftm_mode & CNSC_MASK);
+			FTM1->CONTROLS[0].CnSC |= FTM_CnSC_CHIE(ch_configuration->ftm_enable_interrupt);
+			break;
+	}
+	if(FALSE == (ch_configuration->ftm_mode & CAPTURE_MODE))
+	{
+		FTM1->CONTROLS[channel].CnV = ch_configuration->ftm_value;
+	}
+	if(ch_configuration->ftm_enable_deadtime)
+	{
+		FTM1->DEADTIME = ch_configuration->ftm_dtval;
+	}
+	FTM1->SC = (FTM_SC_CLKS (ch_configuration->ftm_clocks)| FTM_SC_PS(ch_configuration->ftm_prescaler) | FTM_SC_CPWMS(cpwns_flag) | FTM_SC_TOIE(ch_configuration->ftm_enable_toie));
+}
+
+
