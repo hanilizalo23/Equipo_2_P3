@@ -255,13 +255,91 @@ void B0_choose_function(void)
 /*When the B1 is pressed, it chooses which functions will be done according to the actual stage*/
 void B1_choose_function(void)
 {
-
+	switch(g_menu_level)
+	{
+	case MAIN_MENU:
+		RGB_manual();
+		break;
+	case SUB1_RGB_MANUAL:
+		/*If the mode is on, the changes the blue value*/
+		if(g_mode_on)
+		{
+			g_bright_level = RGB_led_change_bright(BLUE,RGB_MANUAL_BR_CHANGE,INCREASE);
+			LCD_nokia_goto_xy(63,3);
+			LCD_nokia_send_int(BR_FACTOR,g_bright_level,BR_DIGITS);
+		}
+		break;
+	case SUB2_RGB_ADC:
+		break;
+	case SUB3_RGB_SEQ:
+		/*Saves a new value (blue) in the sequence array when the mode is off*/
+		if(FALSE == g_mode_on)
+		{
+			if(MAX_SEQ_VAL == g_sequence_n)
+			{
+				RGB_sequence();
+			}
+			g_colors_sequence [g_sequence_n] = BLUE_RGB;
+			LCD_nokia_send_char('Z');
+			LCD_nokia_send_char(' ');
+			g_sequence_n ++;
+		}
+		break;
+	case SUB4_RGB_FREQ:
+		/*Increases frequency off the trial signal generated on the submenu 4*/
+		if(g_mode_on)
+		{
+			Increase_or_decrease_freq(INCREASE_FRQ,FRQ_CHANGE);
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 /*When the B2 is pressed, it chooses which functions will be done according to the actual stage*/
 void B2_choose_function(void)
 {
-
+	switch(g_menu_level)
+	{
+	case MAIN_MENU:
+		RGB_adc();
+		break;
+	case SUB1_RGB_MANUAL:
+		/*If the mode is on, the changes the blue value*/
+		if(g_mode_on)
+		{
+			g_bright_level = RGB_led_change_bright(BLUE,RGB_MANUAL_BR_CHANGE,DECREASE);
+			LCD_nokia_goto_xy(63,3);
+			LCD_nokia_send_int(BR_FACTOR,g_bright_level,BR_DIGITS);
+		}
+		break;
+	case SUB2_RGB_ADC:
+		break;
+	case SUB3_RGB_SEQ:
+		if(FALSE == g_mode_on)
+		{
+			/*Saves a new value (red) in the sequence array when the mode is off*/
+			if(MAX_SEQ_VAL == g_sequence_n)
+			{
+				RGB_sequence();
+			}
+			g_colors_sequence [g_sequence_n] = RED_RGB;
+			LCD_nokia_send_char('R');
+			LCD_nokia_send_char(' ');
+			g_sequence_n ++;
+		}
+		break;
+	case SUB4_RGB_FREQ:
+		/*Decreases frequency off the trial signal generated on the submenu 4*/
+		if(g_mode_on)
+		{
+			Increase_or_decrease_freq(DECREASE_FRQ,FRQ_CHANGE);
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 /*When the B3 is pressed, it chooses which functions will be done according to the actual stage*/
