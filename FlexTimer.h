@@ -10,7 +10,6 @@
 #ifndef FLEXTIMER_H_
 #define FLEXTIMER_H_
 
-
 #include "MK64F12.h"
 #include "stdint.h"
 
@@ -41,6 +40,36 @@
 #define OUTPUT_COMP_TOGGLE						(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
 #define OUTPUT_COMP_CLEAR						(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
 #define OUTPUT_COMP_SET							(FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(1))
+
+#define EDGE_ALLIGNED_HT						(FTM_CnSC_MSB(1) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define EDGE_ALLIGNED_LT						(FTM_CnSC_MSB(1) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+
+#define CENTER_ALLIGNED_HT						(CPWMS_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define CENTER_ALLIGNED_LT						(CPWMS_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+
+#define COMBINE_PWM_HT							(COMBINE_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define COMBINE_PWM_LT							(COMBINE_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+
+#define DUAL_EDGE_CAPTURE_ONE_SHOT_RE			(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+#define DUAL_EDGE_CAPTURE_ONE_SHOT_FE			(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define DUAL_EDGE_CAPTURE_ONE_SHOT_RE_OR_FE		(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(0) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(1))
+#define DUAL_EDGE_CAPTURE_CONTINUOUS_RE			(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(0) | FTM_CnSC_ELSA(1))
+#define DUAL_EDGE_CAPTURE_CONTINUOUS_FE			(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(0))
+#define DUAL_EDGE_CAPTURE_CONTINUOUS_RE_OR_FE	(CAPTURE_MODE | DECAPEN_ON | FTM_CnSC_MSB(0) | FTM_CnSC_MSA(1) | FTM_CnSC_ELSB(1) | FTM_CnSC_ELSA(1))
+
+#define FLEX_TIMER_CLKS_0  (0U)
+#define FLEX_TIMER_CLKS_1  (1U)
+#define FLEX_TIMER_CLKS_2  (2U)
+#define FLEX_TIMER_CLKS_3  (3U)
+
+#define FLEX_TIMER_PS_1    (0U)
+#define FLEX_TIMER_PS_2    (1U)
+#define FLEX_TIMER_PS_4    (2U)
+#define FLEX_TIMER_PS_8    (3U)
+#define FLEX_TIMER_PS_16   (4U)
+#define FLEX_TIMER_PS_32   (5U)
+#define FLEX_TIMER_PS_64   (6U)
+#define FLEX_TIMER_PS_128  (7U)
 
 #define SYSTEM_CLOCK_FTM (60000000.0F)
 
@@ -155,4 +184,21 @@ void FTM2_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch
  	 \return void
  */
 void FTM3_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Reads the CV of the specified channel on the FTM selected.
+ 	 \param[in]  flextimer.
+ 	 \param[in]  channel.
+ 	 \return void
+ */
+uint16_t get_channel_value(ftm_name_t flextimer,ftm_channel_name_t channel);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Reads the MOD value of the specified FTM.
+ 	 \param[in]  flextimer.
+ 	 \return void
+ */
+uint16_t get_mod_value(ftm_name_t flextimer);
+
+
 #endif /* FLEXTIMER_H_ */

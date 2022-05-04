@@ -354,3 +354,97 @@ void FTM3_configure_ch(ftm_channel_name_t channel, const ftm_channel_config_t *c
 	}
 	FTM3->SC = (FTM_SC_CLKS (ch_configuration->ftm_clocks)| FTM_SC_PS(ch_configuration->ftm_prescaler) | FTM_SC_CPWMS(cpwns_flag) | FTM_SC_TOIE(ch_configuration->ftm_enable_toie));
 }
+
+uint16_t get_channel_value(ftm_name_t flextimer,ftm_channel_name_t channel)
+{
+	uint16_t channel_value;
+	switch(flextimer)
+	{
+	case FTM_0:
+		channel_value = FTM0->CONTROLS[channel].CnV;
+		break;
+	case FTM_1:
+		channel_value = FTM1->CONTROLS[channel].CnV;
+		break;
+	case FTM_2:
+		channel_value = FTM2->CONTROLS[channel].CnV;
+		break;
+	default:
+		channel_value = FTM3->CONTROLS[channel].CnV;
+		break;
+	}
+	return(channel_value);
+}
+
+uint16_t get_mod_value(ftm_name_t flextimer)
+{
+	uint16_t mod_value;
+	switch(flextimer)
+	{
+		case FTM_0:
+			mod_value = FTM0->MOD;
+			break;
+		case FTM_1:
+			mod_value = FTM1->MOD;
+			break;
+		case FTM_2:
+			mod_value = FTM2->MOD;
+			break;
+		default:
+			mod_value = FTM3->MOD;
+			break;
+	}
+	return(mod_value);
+}
+
+void FlexTimer_disable_channel(ftm_name_t flextimer,ftm_channel_name_t channel)
+{
+	switch(flextimer)
+	{
+		case FTM_0:
+			FTM0->CONTROLS[channel].CnSC = DISABLE_CH;
+			break;
+		case FTM_1:
+			FTM1->CONTROLS[channel].CnSC = DISABLE_CH;
+			break;
+		case FTM_2:
+			FTM2->CONTROLS[channel].CnSC = DISABLE_CH;
+			break;
+		default:
+			FTM3->CONTROLS[channel].CnSC = DISABLE_CH;
+			break;
+	}
+}
+
+void FTM0_IRQHandler(void)
+{
+	if(ftm_0_callback)
+	{
+		ftm_0_callback();
+	}
+}
+
+void FTM1_IRQHandler(void)
+{
+	if(ftm_1_callback)
+	{
+		ftm_1_callback();
+	}
+}
+
+void FTM2_IRQHandler(void)
+{
+	if(ftm_2_callback)
+	{
+		ftm_2_callback();
+	}
+}
+
+void FTM3_IRQHandler(void)
+{
+	if(ftm_3_callback)
+	{
+		ftm_3_callback();
+	}
+}
+ 
