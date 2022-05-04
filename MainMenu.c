@@ -21,10 +21,27 @@
 #include "LCD_nokia_images.h"
 
 //Current stage of the program.
-
+static menu_level_t g_menu_level = START;
+//Flag to determine if the current mode is on or off.
+static uint8_t g_mode_on = FALSE;
+//Variable to save a maximum of 10 colors for the sequence in the submenu 3.
+static color_sequence_t g_colors_sequence [10] = {0};
+//Variable to track how many colors are in the sequence of the submenu 3.
+static uint8_t g_sequence_n = 0;
+//Determines if the system has just started. It is used to know if the start RGB sequence must be shown.
+static uint8_t g_start_system = FALSE;
+//Keeps the actual bright level to send it to the LCD.
+static uint8_t g_bright_level;
 
 //Strings for LCD
-
+uint8_t g_str_submenu1[] = "1)RGB Manual";
+uint8_t g_str_submenu2[] = "2)RGB ADC";
+uint8_t g_str_submenu3[] = "3)RGB Sec.";
+uint8_t g_str_submenu4[] = "4)RGB Frec.";
+uint8_t g_str_voltaje[] = "Voltaje: ";
+uint8_t g_str_freq[] = "Freq: ";
+uint8_t g_str_on[] = "ON ";
+uint8_t g_str_off[] = "OFF";
 
 //Initial RGB sequence
 color_sequence_t initial_sequence[5] =
