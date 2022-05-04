@@ -23,7 +23,7 @@
 #define CAPTURE_MODE    	0x200
 
 
-#define SYSTEM_CLOCK_FTM (21000000.0F)
+#define SYSTEM_CLOCK_FTM (60000000.0F)
 
 typedef enum{FTM_0,
 			FTM_1,
@@ -31,6 +31,29 @@ typedef enum{FTM_0,
 			FTM_3
 }ftm_name_t;
 
+typedef enum{CH_0,
+			CH_1,
+			CH_2,
+			CH_3,
+			CH_4,
+			CH_5,
+			CH_6,
+			CH_7
+}ftm_channel_name_t;
+
+
+typedef struct{
+	uint32_t ftm_mode;
+	uint16_t ftm_value;
+	channel_enable_t ftm_enable_deadtime;
+	channel_enable_t ftm_enable_combine;
+	channel_enable_t ftm_enable_complement;
+	uint8_t ftm_dtval;
+	uint8_t ftm_clocks;
+	uint8_t ftm_prescaler;
+	channel_enable_t ftm_enable_toie;
+	channel_enable_t ftm_enable_interrupt;
+}ftm_channel_config_t;
 
 /********************************************************************************************/
 /*!
@@ -59,6 +82,14 @@ void FlexTimer_clock_gating(ftm_name_t flextimer);
 void FlexTimer_configure_channel(ftm_name_t flextimer,ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
 /********************************************************************************************/
 /*!
+ 	 \brief	 Disables the specified channel of the specified FTM.
+ 	 \param[in]  flextimer.
+ 	 \param[in]  channel.
+ 	 \return void
+ */
+void FlexTimer_disable_channel(ftm_name_t flextimer,ftm_channel_name_t channel);
+/********************************************************************************************/
+/*!
  	 \brief	 Changes the MOD of the specified FTM.
  	 \param[in]  flextimer.
  	 \param[in]  value = new MOD value.
@@ -73,6 +104,5 @@ void FlexTimer_set_mod(ftm_name_t flextimer,uint16_t value);
  	 \return void
  */
 void FlexTimer_change_cnv(ftm_name_t flextimer,ftm_channel_name_t channel,uint16_t value);
-
 
 #endif /* FLEXTIMER_H_ */

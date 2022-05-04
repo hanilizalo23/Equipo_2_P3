@@ -78,4 +78,40 @@ void FlexTimer_set_mod(ftm_name_t flextimer,uint16_t value)
 }
 
 void FlexTimer_change_cnv(ftm_name_t flextimer,ftm_channel_name_t channel,uint16_t value)
-{}
+{
+	switch(flextimer)
+	{
+		case FTM_0:
+			FTM0->CONTROLS[channel].CnV = value;
+			break;
+		case FTM_1:
+			FTM1->CONTROLS[channel].CnV = value;
+			break;
+		case FTM_2:
+			FTM2->CONTROLS[channel].CnV = value;
+			break;
+		default:
+			FTM3->CONTROLS[channel].CnV = value;
+			break;
+	}
+}
+
+void FTM_callback_init(ftm_name_t flextimer,void (*handler)(void))
+{
+	switch(flextimer)
+		{
+		case FTM_0:
+			ftm_0_callback = handler;
+			break;
+		case FTM_1:
+			ftm_1_callback = handler;
+			break;
+		case FTM_2:
+			ftm_2_callback = handler;
+			break;
+		default:
+			ftm_3_callback = handler;
+			break;
+		}
+}
+
