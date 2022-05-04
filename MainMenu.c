@@ -145,12 +145,26 @@ void RGB_adc(void)
 
 void RGB_sequence(void)
 {
-
+	g_menu_level = SUB3_RGB_SEQ;
+	g_sequence_n = 0;
+	LCD_nokia_clear();
+	LCD_nokia_goto_xy(10,0); /*! It establishes the position to print the messages in the LCD*/
+	LCD_nokia_send_string(&g_str_submenu3[0]); /*! It print a string stored in an array*/
+	LCD_nokia_goto_xy(0,5);
+	LCD_nokia_send_string(&g_str_off[0]);
+	LCD_nokia_goto_xy(0,1);
 }
 
 void RGB_frequence(void)
 {
-
+	g_menu_level = SUB4_RGB_FREQ;
+	LCD_nokia_clear();
+	LCD_nokia_goto_xy(10,0); /*! It establishes the position to print the messages in the LCD*/
+	LCD_nokia_send_string(&g_str_submenu4[0]); /*! It print a string stored in an array*/
+	LCD_nokia_goto_xy(0,5);
+	LCD_nokia_send_string(&g_str_off[0]);
+	LCD_nokia_goto_xy(0,2);
+	LCD_nokia_send_string(&g_str_freq[0]);
 }
 
 /*When the sw3 (on button) it chooses which functions will start according to the actual stage*/
