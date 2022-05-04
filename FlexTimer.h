@@ -131,5 +131,12 @@ void FTM0_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch
  	 \return void
  */
 void FTM1_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
+/*!
+ 	 \brief	 Configures the specified channel of the FTM2.
+ 	 \param[in]  channel.
+ 	 \param[in]  *ch_configuration = pointer to the configuration structure.
+ 	 \return void
+ */
+void FTM2_configure_ch(ftm_channel_name_t channel,const ftm_channel_config_t *ch_configuration);
 
 #endif /* FLEXTIMER_H_ */
