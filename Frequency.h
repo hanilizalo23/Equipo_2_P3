@@ -79,5 +79,22 @@ void GetFrequency(void);
  	 \return void
  */
 void print_frequency(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Calculates the average frequency from the samples and turns the led on the color
+ 	 	 	 	 of the ph level.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+float read_Frequency(void);
+/*To stop the frequency read*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Stops the frequency reading.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void Frequency_read_stop(void);
+ 
 
 #endif /* FREQUENCY_H_ */

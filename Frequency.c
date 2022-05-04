@@ -177,3 +177,26 @@ void print_frequency(void)
 		LCD_nokia_send_string(&g_str_hz[0]);
 	}
 }
+
+float read_Frequency(void)
+{
+	float avg_frequency = 0.00;
+	uint32_t n_sample;
+	int8_t ph_lvl;
+	/*Obtains the avg frequency and turns the led according to the ph level*/
+	for(n_sample = 0; n_sample < FREQ_TOTAL_SAMPLES; n_sample++)
+	{
+		avg_frequency += g_frequency[n_sample];
+	}
+	avg_frequency = (avg_frequency / FREQ_TOTAL_SAMPLES);
+	ph_lvl = RGB_led_frequency_to_phlevel(avg_frequency);
+	RGB_led_ph_color(ph_lvl);
+	return(avg_frequency);
+}
+
+/*To stop the frequency read*/
+void Frequency_read_stop(void)
+{
+	FlexTimer_disable_channel(FTM_2,CH_0);
+}
+ 
