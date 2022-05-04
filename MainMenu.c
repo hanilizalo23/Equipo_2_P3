@@ -240,7 +240,16 @@ void Mode_off(void)
 
 /*When the B0 is pressed, it chooses which functions will be done according to the actual stage*/
 void B0_choose_function(void)
-
+{
+	switch(g_menu_level)
+	{
+	case MAIN_MENU:
+		Start();
+		break;
+	default:
+		MainMenu_in();
+		break;
+	}
 }
 
 /*When the B1 is pressed, it chooses which functions will be done according to the actual stage*/
