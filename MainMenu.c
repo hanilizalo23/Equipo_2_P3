@@ -170,13 +170,72 @@ void RGB_frequence(void)
 /*When the sw3 (on button) it chooses which functions will start according to the actual stage*/
 void Mode_on(void)
 {
-
+	switch(g_menu_level)
+	{
+	case START:
+		break;
+	case MAIN_MENU:
+		break;
+	case SUB2_RGB_ADC:
+		RGB_led_adc_init();
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_on[0]);
+		break;
+	case SUB3_RGB_SEQ:
+		RGB_led_start_sequence(&g_colors_sequence[0],g_sequence_n,CONTINUE_SEQ);
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_on[0]);
+		g_mode_on = TRUE;
+		break;
+	case SUB4_RGB_FREQ:
+		Frequency_read_initilize();
+		Generate_trial_signal();
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_on[0]);
+		g_mode_on = TRUE;
+		break;
+	default:
+		g_mode_on = TRUE;
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_on[0]);
+		break;
+	}
 }
 
 /*When the sw2 (off button) it chooses which functions will stop according to the actual stage*/
 void Mode_off(void)
 {
-
+	switch(g_menu_level)
+	{
+	case START:
+		break;
+	case MAIN_MENU:
+		break;
+	case SUB2_RGB_ADC:
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_off[0]);
+		RGB_led_adc_stop();
+		break;
+	case SUB3_RGB_SEQ:
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_off[0]);
+		RGB_led_stop_sequence();
+		RGB_sequence();
+		g_mode_on = FALSE;
+		break;
+	case SUB4_RGB_FREQ:
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_off[0]);
+		Frequency_read_stop();
+		Generate_trial_signal_stop();
+		g_mode_on = FALSE;
+		break;
+	default:
+		LCD_nokia_goto_xy(0,5);
+		LCD_nokia_send_string(&g_str_off[0]);
+		g_mode_on = FALSE;
+		break;
+	}
 }
 
 /*When the B0 is pressed, it chooses which functions will be done according to the actual stage*/
