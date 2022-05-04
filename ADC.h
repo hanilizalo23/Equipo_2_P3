@@ -18,4 +18,6 @@
 
 void ADC_init(void); //Initialization for ADC
 
+uint8_t ADC_result(void); //Obtaining the result of the ADC read
+
 #endif /* ADC_H_ */
