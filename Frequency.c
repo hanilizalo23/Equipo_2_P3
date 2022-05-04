@@ -126,3 +126,35 @@ void Frequency_read_initilize(void)
 	NVIC_enable_interrupt_and_priotity(FTM2_IRQ,PRIORITY_9);
 	NVIC_global_enable_interrupts;
 }
+
+void GetFrequency(void)
+{
+	/*Interruption function to read frequencies*/
+	uint8_t fmask = 0x01;
+	uint8_t fmask_stat = 0xFE;
+
+	if((FTM2->STATUS & fmask))
+	{
+			g_tempPrev = g_temp;
+			/*Read FTM0 counter register*/
+			g_temp = get_channel_value(FTM_2,CH_0);//FTM2->CONTROLS[0].CnV;
+			GPIO_toogle_pin(GPIO_B, bit_18);
+			/*To prevent mistakes*/
+			if(g_tempPrev < g_temp)
+			{
+				g_diff = g_temp - g_tempPrev;
+			}
+			else
+			{
+				g_diff = g_tempPrev - g_temp;
+			}
+			FTM2->STATUS &= fmask_stat;
+			g_frequency[g_freq_sample] = SYSTEM_CLOCK_FTM / ((float)g_diff); //1 / (diff * (1/SYSTEM_CLOCK));
+			g_freq_sample++;
+			if(FREQ_TOTAL_SAMPLES < g_freq_sample)
+			{
+				g_freq_sample = 0x00;
+				print_frequency();
+			}
+	}
+}

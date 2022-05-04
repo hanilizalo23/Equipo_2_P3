@@ -65,5 +65,12 @@ void Generate_trial_signal_stop(void);
  	 \return void
  */
 void Frequency_read_initilize(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Interruption function. Calculates the CnV period and converts it to a frequency.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void GetFrequency(void);
 
 #endif /* FREQUENCY_H_ */
