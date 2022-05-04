@@ -14,7 +14,7 @@
 
 #include "stdint.h"
 
-#define SYSTEM_CLOCK (21000000U)
+#define SYSTEM_CLOCK (60000000U)
 
 /** Constant that represent the clock enable for GPIO A */
 #define GPIO_CLOCK_GATING_PORTA 0x00000200
