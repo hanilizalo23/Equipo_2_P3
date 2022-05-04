@@ -200,5 +200,12 @@ uint16_t get_channel_value(ftm_name_t flextimer,ftm_channel_name_t channel);
  */
 uint16_t get_mod_value(ftm_name_t flextimer);
 
+void FlexTimer_disable_channel(ftm_name_t flextimer,ftm_channel_name_t channel);
+
+void FTM0_IRQHandler(void);
+void FTM1_IRQHandler(void);
+void FTM2_IRQHandler(void);
+void FTM3_IRQHandler(void);
+
 
 #endif /* FLEXTIMER_H_ */
