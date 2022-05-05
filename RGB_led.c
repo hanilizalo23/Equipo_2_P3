@@ -33,8 +33,8 @@ static continue_seq_t g_stop_flag = FALSE;
 static uint16_t g_adc_samples_counter = 0x00;
 //Array that stores the ADC samples
 static uint16_t g_adc_samples[ADC_SAMPLES_MAX] = {0};
-/*FSM for bright change on each color*/
 
+/*For bright change on each color*/
 const rgb_bright_change_t Change_br_rgb[3]=
 {
 	{FTM_0, RED_CH},
@@ -265,5 +265,39 @@ void RGB_led_change_seq_color(void)
 	{
 		g_sequence_counter++;
 		RGB_led_set_color(&g_sequence_rgb_code[g_colors_seq[g_sequence_counter]]);
+	}
+}
+
+/*For submenu 4: Frequency*/
+uint8_t RGB_led_frequency_to_phlevel(float frequency)
+{
+	if(MAX_FREQ_PH < frequency)
+	{
+		frequency = MAX_FREQ_PH;
+	}
+	uint8_t ph_level = ((uint32_t)frequency) / (MAX_FREQ_PH/ PH_LEVELS_MAX);
+	return(ph_level);
+}
+
+/*Functions to generate a one second delay*/
+void RGB_led_delay_1s_init(void)
+{
+	FlexTimer_clock_gating(FTM_1);
+	FlexTimer_set_mod(FTM_1,FTM_MOD_500HZ);
+	FlexTimer_configure_channel(FTM_1,CH_0,&g_configure_rgb_1s);
+	FlexTimer_change_cnv(FTM_1,CH_0,FTM_MOD_500HZ);
+	FTM_callback_init(FTM_1,Increase_interrupt_counter);
+	NVIC_enable_interrupt_and_priotity(FTM1_IRQ,PRIORITY_9);
+	NVIC_global_enable_interrupts;
+}
+
+void Increase_interrupt_counter(void)
+{
+	g_counter_1s++;
+	//Till 1 second is reached
+	if(COUNTS_ONE_SEC == g_counter_1s)
+	{
+		RGB_led_change_seq_color();
+		g_counter_1s = 0x00;
 	}
 }
