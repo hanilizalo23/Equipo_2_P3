@@ -113,3 +113,22 @@ void RGB_led_initialize(void)
 	FlexTimer_configure_channel(FTM_0,RED_CH,&g_configure_ftm_rgb);
 	FlexTimer_configure_channel(FTM_0,GREEN_CH,&g_configure_ftm_rgb);
 }
+
+void RGB_led_turn_off(void)
+{
+	FlexTimer_change_cnv(FTM_0,RED_CH,FTM_CHV_RGB_INIT);
+	FlexTimer_change_cnv(FTM_0,GREEN_CH,FTM_CHV_RGB_INIT);
+	FlexTimer_change_cnv(FTM_0,BLUE_CH,FTM_CHV_RGB_INIT);
+}
+
+uint16_t RGB_led_intensity_to_duty_cycle(uint8_t intensity)
+{
+	uint16_t duty_cycle = intensity * RGB_INTENSITY_GAIN;
+	return(duty_cycle);
+}
+
+uint8_t RGB_led_duty_cycle_to_intensity(uint16_t duty_cycle)
+{
+	uint8_t intensity = duty_cycle / RGB_INTENSITY_GAIN;
+	return(intensity);
+}

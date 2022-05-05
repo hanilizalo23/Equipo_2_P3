@@ -92,5 +92,136 @@ typedef struct
 	uint8_t blue;
 }rgb_intensity_colors_t;
 
+/*Initialization and general use functions*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Initializes the FTM0 channels for the RGB control.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_initialize(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Turns off the RGB led.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_turn_off(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Transforms the intensity (0 to 255 value) to the CnV needed for the RGB.
+ 	 \param[in]  uint8_t intensity = brightness value.
+ 	 \return uint16_t duty cycle needed
+ */
+uint16_t RGB_led_intensity_to_duty_cycle(uint8_t intensity);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Transforms the CnV to a value from 0 to 255 (intensity).
+ 	 \param[in]  uint16_t duty cycle.
+ 	 \return uint8_t intensity.
+ */
+uint8_t RGB_led_duty_cycle_to_intensity(uint16_t duty_cycle);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Changes the bright of each color according to the RGB code.
+ 	 \param[in]  rgb_intensity_colors_t *rgb_code = RGB code of the color.
+ 	 \return void
+ */
+void RGB_led_set_color(rgb_intensity_colors_t *rgb_code);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Turns the RGB led on the color associated with the ph level.
+ 	 \param[in]  uint8_t ph level.
+ 	 \return void
+ */
+void RGB_led_ph_color(uint8_t ph_level);
+
+/*For submenu 1: Manual*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Modifies the bright of the chosen color.
+ 	 \param[in]  color_value_t color = color that must be modified.
+ 	 \param[in]	 uint16_t value = how much it increases/decreases (the duty cycle).
+ 	 \param[in]	 increase_or_decrease_br_t option = to choose if the bright decreases or
+ 	 	 	 	 increases.
+ 	 \return intensity = the new value on a range of 0 to 255.
+ */
+uint8_t RGB_led_change_bright(color_value_t color,uint16_t value,increase_or_decrease_br_t option);
+
+/*For submenu 2: ADC*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Initializes ADC reading and conversion.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_adc_init(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Interruption to read the ADC.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void read_adc(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Deactivates the FTM1 CH1 to stop the ADC reading.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_adc_stop(void);
+
+/*For submenu 3: Sequence*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Function for the Main Menu that displays all the possible options on the LCD.
+ 	 \param[in]  color_sequence_t *colors = pointer to the array that contains the colors.
+ 	 \param[in]	 uint8_t sequence_total = total of colors in the array.
+ 	 \param[in]	 continue_seq_t stop = to choose if the sequence stops after it is completed
+ 	 	 	 		or if it continues.
+ 	 \return void
+ */
+void RGB_led_start_sequence(color_sequence_t *colors,uint8_t sequence_total,continue_seq_t stop);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Deactivates the FTM1 CH0 to stop the 1s delay and the sequence.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_stop_sequence(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Changes the RGB sequence to the next color.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_change_seq_color(void);
+
+/*For submenu 4: Frequency*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Transforms a frequency between 1kHz to 10kHz into a ph level.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+uint8_t RGB_led_frequency_to_phlevel(float frequency);
+
+/*Functions to generate a one second delay*/
+/********************************************************************************************/
+/*!
+ 	 \brief	 Function to initialize the FTM1 CH0 to obtain the interruptions to generate a
+ 	  	  	  one second delay.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void RGB_led_delay_1s_init(void);
+/********************************************************************************************/
+/*!
+ 	 \brief	 Function fto increment a counter to generate a one second delay.
+ 	 \param[in]  void.
+ 	 \return void
+ */
+void Increase_interrupt_counter(void);
+
 
 #endif /* RGB_LED_H_ */
