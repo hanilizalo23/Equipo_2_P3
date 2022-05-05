@@ -105,10 +105,81 @@ uint8_t RGB_initialize_one_color(rgb_led_color_t color_name)
 
 uint8_t RGB_color_on(rgb_led_color_t color_name)
 {
-
+	switch(color_name)
+				{
+					case RGB_RED:		/** Color red is selected*/
+						GPIO_set_pin(GPIO_E, bit_26);
+						GPIO_set_pin(GPIO_B, bit_21);
+						GPIO_clear_pin(GPIO_B, bit_22);
+						break;
+					case RGB_GREEN:		/** Color green is selected*/
+						GPIO_set_pin(GPIO_B, bit_21);
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_clear_pin(GPIO_E, bit_26);
+						break;
+					case RGB_BLUE:		/** Color blue is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_set_pin(GPIO_E, bit_26);
+						GPIO_clear_pin(GPIO_B, bit_21);
+						break;
+					case RGB_PURPLE:	/** Color purple is selected*/
+						GPIO_set_pin(GPIO_E, bit_26);
+						GPIO_clear_pin(GPIO_B, bit_22);
+						GPIO_clear_pin(GPIO_B, bit_21);
+						break;
+					case RGB_YELLOW: 	/** Color yellow is selected*/
+						GPIO_set_pin(GPIO_B, bit_21);
+						GPIO_clear_pin(GPIO_B, bit_22);
+						GPIO_clear_pin(GPIO_E, bit_26);
+						break;
+					case RGB_CYAN: 		/** Color cyan is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_clear_pin(GPIO_E, bit_26);
+						GPIO_clear_pin(GPIO_B, bit_21);
+						break;
+					case RGB_WHITE: 	/** Color white is selected*/
+						GPIO_clear_pin(GPIO_B, bit_22);
+						GPIO_clear_pin(GPIO_B, bit_21);
+						GPIO_clear_pin(GPIO_E, bit_26);
+						break;
+					default:/**If the option doesn't exist*/
+						return(FALSE);
+				}
+		return(TRUE);
 }
 
 uint8_t RGB_color_off(rgb_led_color_t color_name)
 {
-
+	switch(color_name)
+				{
+					case RGB_RED:		/** Color red is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						break;
+					case RGB_GREEN:		/** Color green is selected*/
+						GPIO_set_pin(GPIO_E, bit_26);
+						break;
+					case RGB_BLUE:		/** Color blue is selected*/
+						GPIO_set_pin(GPIO_B, bit_21);
+						break;
+					case RGB_PURPLE:	/** Color purple is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_set_pin(GPIO_B, bit_21);
+						break;
+					case RGB_YELLOW: 	/** Color yellow is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_set_pin(GPIO_E, bit_26);
+						break;
+					case RGB_CYAN: 		/** Color cyan is selected*/
+						GPIO_set_pin(GPIO_E, bit_26);
+						GPIO_set_pin(GPIO_B, bit_21);
+						break;
+					case RGB_WHITE: 	/** Color white is selected*/
+						GPIO_set_pin(GPIO_B, bit_22);
+						GPIO_set_pin(GPIO_B, bit_21);
+						GPIO_set_pin(GPIO_E, bit_26);
+						break;
+					default:/**If the option doesn't exist*/
+						return(FALSE);
+				}
+	return(TRUE);
 }
