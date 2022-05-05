@@ -230,3 +230,40 @@ void RGB_led_adc_stop(void)
 {
 	FlexTimer_disable_channel(FTM_1,CH_1);
 }
+
+/*For submenu 3: Sequence*/
+void RGB_led_start_sequence(color_sequence_t *colors,uint8_t sequence_total,continue_seq_t stop)
+{
+	g_colors_seq = colors;
+	g_sequence_total = sequence_total - RESO;
+	g_stop_flag = stop;
+	//Turn off the first color
+	RGB_led_set_color(&g_sequence_rgb_code[colors[0]]);
+	//Enables the interruption to get 1sec delay
+	RGB_led_delay_1s_init();
+}
+
+void RGB_led_stop_sequence(void)
+{
+	FlexTimer_disable_channel(FTM_1,CH_0);
+}
+
+void RGB_led_change_seq_color(void)
+{
+	//If the sequence must stop and this is the last color...
+	if((g_stop_flag) && (g_sequence_total == g_sequence_counter))
+	{
+		g_sequence_counter = 0x00;
+		RGB_led_stop_sequence();
+	}
+	else if((!g_stop_flag) && (g_sequence_total == g_sequence_counter))
+	{
+		g_sequence_counter = 0x00;
+		RGB_led_set_color(&g_sequence_rgb_code[g_colors_seq[g_sequence_counter]]);
+	}
+	else
+	{
+		g_sequence_counter++;
+		RGB_led_set_color(&g_sequence_rgb_code[g_colors_seq[g_sequence_counter]]);
+	}
+}
