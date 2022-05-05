@@ -1,0 +1,16 @@
+../source/FlexTimer.c:23:6:FlexTimer_clock_gating	16	static
+../source/FlexTimer.c:42:6:FlexTimer_configure_channel	16	static
+../source/FlexTimer.c:61:6:FlexTimer_set_mod	16	static
+../source/FlexTimer.c:80:6:FlexTimer_change_cnv	16	static
+../source/FlexTimer.c:99:6:FTM_callback_init	16	static
+../source/FlexTimer.c:118:6:FTM0_configure_ch	32	static
+../source/FlexTimer.c:191:6:FTM1_configure_ch	32	static
+../source/FlexTimer.c:236:6:FTM2_configure_ch	32	static
+../source/FlexTimer.c:284:6:FTM3_configure_ch	40	static
+../source/FlexTimer.c:358:10:get_channel_value	24	static
+../source/FlexTimer.c:379:10:get_mod_value	24	static
+../source/FlexTimer.c:400:6:FlexTimer_disable_channel	16	static
+../source/FlexTimer.c:419:6:FTM0_IRQHandler	8	static
+../source/FlexTimer.c:427:6:FTM1_IRQHandler	8	static
+../source/FlexTimer.c:435:6:FTM2_IRQHandler	8	static
+../source/FlexTimer.c:443:6:FTM3_IRQHandler	8	static

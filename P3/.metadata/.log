@@ -1,0 +1,183 @@
+!SESSION 2022-04-16 19:59:53.405 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_MX
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.nxp.mcuxpresso.core.datamodels 1 0 2022-04-16 20:00:16.260
+!MESSAGE Recreating part support. No part support available.
+
+!ENTRY com.nxp.mcuxpresso.core.datamodels 1 0 2022-04-16 20:00:20.704
+!MESSAGE The device 'MK64FN1M0xxx12' (version='1.0.0') from SDK 'SDK_2.x_FRDM-K64F' (version='2.11.0', build='541 2022-01-14') will be installed.
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-04-16 20:01:59.399
+!MESSAGE Indexed 'P3' (0 sources, 0 headers) in 0.003 sec: 0 declarations; 0 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0 %)
+!SESSION 2022-05-02 01:04:59.140 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_MX
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.crt.log 4 -1 2022-05-02 01:38:55.347
+!MESSAGE Attempted to beginRule: R/, does not match outer scope rule: P/P3
+!STACK 0
+java.lang.Exception: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at com.crt.utils.general.Reporter.log(Reporter.java:591)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:520)
+	at com.crt.config.database.ChipVendor.save(ChipVendor.java:742)
+	at com.crt.config.database.TargetConfig.save(TargetConfig.java:1534)
+	at com.crt.config.SaveViewInfo.saving(SaveViewInfo.java:102)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:387)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:204)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:207)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1164)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.Project.close(Project.java:197)
+	at org.eclipse.ui.actions.CloseResourceAction.invokeOperation(CloseResourceAction.java:171)
+	at org.eclipse.ui.actions.WorkspaceAction.execute(WorkspaceAction.java:159)
+	at org.eclipse.ui.actions.WorkspaceAction$1.runInWorkspace(WorkspaceAction.java:459)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.cdt.internal.core.settings.model.ExceptionFactory.createCoreException(ExceptionFactory.java:29)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:211)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionStorageManager.setProjectDescription(CProjectDescriptionStorageManager.java:153)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:867)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:817)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:810)
+	at org.eclipse.cdt.core.model.CoreModel.setProjectDescription(CoreModel.java:1400)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:515)
+	... 15 more
+Caused by: java.lang.IllegalArgumentException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:66)
+	at org.eclipse.core.internal.jobs.ThreadJob.illegalPush(ThreadJob.java:137)
+	at org.eclipse.core.internal.jobs.ThreadJob.push(ThreadJob.java:392)
+	at org.eclipse.core.internal.jobs.ImplicitJobs.begin(ImplicitJobs.java:66)
+	at org.eclipse.core.internal.jobs.JobManager.beginRule(JobManager.java:299)
+	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:124)
+	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2263)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2308)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:644)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:209)
+	... 21 more
+!SESSION 2022-05-03 23:00:36.437 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_MX
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.crt.log 4 -1 2022-05-04 00:29:47.688
+!MESSAGE Attempted to beginRule: R/, does not match outer scope rule: P/P3
+!STACK 0
+java.lang.Exception: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at com.crt.utils.general.Reporter.log(Reporter.java:591)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:520)
+	at com.crt.config.database.ChipVendor.save(ChipVendor.java:742)
+	at com.crt.config.database.TargetConfig.save(TargetConfig.java:1534)
+	at com.crt.config.SaveViewInfo.saving(SaveViewInfo.java:102)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:387)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:204)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:207)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1164)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.Project.close(Project.java:197)
+	at org.eclipse.ui.actions.CloseResourceAction.invokeOperation(CloseResourceAction.java:171)
+	at org.eclipse.ui.actions.WorkspaceAction.execute(WorkspaceAction.java:159)
+	at org.eclipse.ui.actions.WorkspaceAction$1.runInWorkspace(WorkspaceAction.java:459)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.cdt.internal.core.settings.model.ExceptionFactory.createCoreException(ExceptionFactory.java:29)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:211)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionStorageManager.setProjectDescription(CProjectDescriptionStorageManager.java:153)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:867)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:817)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:810)
+	at org.eclipse.cdt.core.model.CoreModel.setProjectDescription(CoreModel.java:1400)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:515)
+	... 15 more
+Caused by: java.lang.IllegalArgumentException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:66)
+	at org.eclipse.core.internal.jobs.ThreadJob.illegalPush(ThreadJob.java:137)
+	at org.eclipse.core.internal.jobs.ThreadJob.push(ThreadJob.java:392)
+	at org.eclipse.core.internal.jobs.ImplicitJobs.begin(ImplicitJobs.java:66)
+	at org.eclipse.core.internal.jobs.JobManager.beginRule(JobManager.java:299)
+	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:124)
+	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2263)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2308)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:644)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:209)
+	... 21 more
+!SESSION 2022-05-04 20:49:34.897 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=11.0.11
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_MX
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.crt.log 1 0 2022-05-04 21:56:47.769
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2022-05-04 21:56:47.779
+!MESSAGE RedlinkServer telnet session connected on port 3025->52755 @ 127.0.0.1
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2022-05-04 21:56:59.096
+!MESSAGE Unable to parse ProbeList output to get probe ref count: []
+
+!ENTRY com.crt.utils 1 0 2022-05-04 21:57:08.323
+!MESSAGE Connected to 127.0.0.1 on port 2332.
+
+!ENTRY com.nxp.mcuxpresso.core.debug 1 0 2022-05-04 21:57:09.296
+!MESSAGE Telnet session connected on port 2333->52776 @ 127.0.0.1
+
+!ENTRY com.crt.log 4 -1 2022-05-04 21:59:19.666
+!MESSAGE Attempted to beginRule: R/, does not match outer scope rule: P/P3
+!STACK 0
+java.lang.Exception: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at com.crt.utils.general.Reporter.log(Reporter.java:591)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:520)
+	at com.crt.config.database.ChipVendor.save(ChipVendor.java:742)
+	at com.crt.config.database.TargetConfig.save(TargetConfig.java:1534)
+	at com.crt.config.SaveViewInfo.saving(SaveViewInfo.java:102)
+	at org.eclipse.core.internal.resources.SaveManager.executeLifecycle(SaveManager.java:387)
+	at org.eclipse.core.internal.resources.SaveManager$1.run(SaveManager.java:204)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.core.internal.resources.SaveManager.broadcastLifecycle(SaveManager.java:207)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1164)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1143)
+	at org.eclipse.core.internal.resources.Project.close(Project.java:197)
+	at org.eclipse.ui.actions.CloseResourceAction.invokeOperation(CloseResourceAction.java:171)
+	at org.eclipse.ui.actions.WorkspaceAction.execute(WorkspaceAction.java:159)
+	at org.eclipse.ui.actions.WorkspaceAction$1.runInWorkspace(WorkspaceAction.java:459)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:42)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.core.runtime.CoreException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.cdt.internal.core.settings.model.ExceptionFactory.createCoreException(ExceptionFactory.java:29)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:211)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionStorageManager.setProjectDescription(CProjectDescriptionStorageManager.java:153)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:867)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:817)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.setProjectDescription(CProjectDescriptionManager.java:810)
+	at org.eclipse.cdt.core.model.CoreModel.setProjectDescription(CoreModel.java:1400)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.save(SDKChipVendorDatabase.java:515)
+	... 15 more
+Caused by: java.lang.IllegalArgumentException: Attempted to beginRule: R/, does not match outer scope rule: P/P3
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:66)
+	at org.eclipse.core.internal.jobs.ThreadJob.illegalPush(ThreadJob.java:137)
+	at org.eclipse.core.internal.jobs.ThreadJob.push(ThreadJob.java:392)
+	at org.eclipse.core.internal.jobs.ImplicitJobs.begin(ImplicitJobs.java:66)
+	at org.eclipse.core.internal.jobs.JobManager.beginRule(JobManager.java:299)
+	at org.eclipse.core.internal.resources.WorkManager.checkIn(WorkManager.java:124)
+	at org.eclipse.core.internal.resources.Workspace.prepareOperation(Workspace.java:2263)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2308)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2338)
+	at org.eclipse.cdt.internal.core.model.CModelOperation.runOperation(CModelOperation.java:644)
+	at org.eclipse.cdt.internal.core.settings.model.AbstractCProjectDescriptionStorage.setProjectDescription(AbstractCProjectDescriptionStorage.java:209)
+	... 21 more

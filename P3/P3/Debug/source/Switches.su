@@ -1,0 +1,5 @@
+../source/Switches.c:24:9:SW2_config	8	static
+../source/Switches.c:35:9:SW2_disable	8	static
+../source/Switches.c:44:9:SW3_config	8	static
+../source/Switches.c:55:9:SW3_disable	8	static
+../source/Switches.c:64:9:sw_state	24	static

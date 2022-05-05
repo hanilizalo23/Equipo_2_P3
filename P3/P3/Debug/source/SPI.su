@@ -1,0 +1,13 @@
+../source/SPI.c:15:6:SPI_enable	16	static
+../source/SPI.c:31:7:SPI_clk	16	static
+../source/SPI.c:47:7:SPI_set_master	16	static
+../source/SPI.c:84:7:SPI_fifo	16	static
+../source/SPI.c:123:7:SPI_clock_polarity	16	static
+../source/SPI.c:160:7:SPI_frame_size	16	static
+../source/SPI.c:185:7:SPI_clock_phase	16	static
+../source/SPI.c:210:6:SPI_baud_rate	16	static
+../source/SPI.c:227:7:SPI_msb_first	16	static
+../source/SPI.c:253:7:SPI_start_tranference	16	static
+../source/SPI.c:270:6:SPI_stop_tranference	16	static
+../source/SPI.c:286:6:SPI_tranference	16	static
+../source/SPI.c:316:6:SPI_init	24	static

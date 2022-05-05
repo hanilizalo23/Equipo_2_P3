@@ -1,0 +1,54 @@
+/**
+	\file 	RGB_led.c
+	\brief
+	 	This source file contains the functions to manipulate an external RGB led.
+	\author Nelida Hernández
+	\date	01/05/2022
+ **/
+
+#include <stdio.h>
+#include "RGB_led.h"
+#include "FlexTimer.h"
+#include "GPIO.h"
+#include "Bits.h"
+#include "MK64F12.h"
+#include "NVIC.h"
+#include "ADC.h"
+#include "MainMenu.h"
+#include "LCD_nokia.h"
+
+#define RESO 1U
+
+//Counter to get 1 second
+static uint32_t g_counter_1s = 0x00;
+//Counter for the sequence of submenu 3
+static uint16_t g_sequence_counter = 0x00;
+//Variable that stores the total value of colors in the sequence
+static uint16_t g_sequence_total = 0x00;
+//Stores the colors in the sequence to use them on callbacks.
+static color_sequence_t *g_colors_seq = 0x00;
+//Stores if the sequence is specified to be stopped
+static continue_seq_t g_stop_flag = FALSE;
+//Counter for the ADC samples
+static uint16_t g_adc_samples_counter = 0x00;
+//Array that stores the ADC samples
+static uint16_t g_adc_samples[ADC_SAMPLES_MAX] = {0};
+
+/*For bright change on each color*/
+const rgb_bright_change_t Change_br_rgb[3]=
+{
+	{FTM_0, RED_CH},
+	{FTM_0, GREEN_CH},
+	{FTM_0, BLUE_CH}
+};
+
+/*Initialization and general use functions*/
+void RGB_led_initialize(void)
+{
+	/*Configure FTM0 for RGB*/
+	FlexTimer_clock_gating(FTM_0);
+	FlexTimer_set_mod(FTM_0,FTM_MOD_RGB);
+	FlexTimer_configure_channel(FTM_0,BLUE_CH,&g_configure_ftm_rgb);
+	FlexTimer_configure_channel(FTM_0,RED_CH,&g_configure_ftm_rgb);
+	FlexTimer_configure_channel(FTM_0,GREEN_CH,&g_configure_ftm_rgb);
+}

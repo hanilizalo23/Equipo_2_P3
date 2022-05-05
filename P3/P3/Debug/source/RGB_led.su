@@ -1,0 +1,16 @@
+../source/RGB_led.c:107:6:RGB_led_initialize	8	static
+../source/RGB_led.c:117:6:RGB_led_turn_off	8	static
+../source/RGB_led.c:124:10:RGB_led_intensity_to_duty_cycle	24	static
+../source/RGB_led.c:130:9:RGB_led_duty_cycle_to_intensity	24	static
+../source/RGB_led.c:136:6:RGB_led_set_color	24	static
+../source/RGB_led.c:148:6:RGB_led_ph_color	24	static
+../source/RGB_led.c:162:9:RGB_led_change_bright	24	static
+../source/RGB_led.c:189:6:RGB_led_adc_init	8	static
+../source/RGB_led.c:202:6:read_adc	24	static
+../source/RGB_led.c:229:6:RGB_led_adc_stop	8	static
+../source/RGB_led.c:235:6:RGB_led_start_sequence	16	static
+../source/RGB_led.c:246:6:RGB_led_stop_sequence	8	static
+../source/RGB_led.c:251:6:RGB_led_change_seq_color	8	static
+../source/RGB_led.c:272:9:RGB_led_frequency_to_phlevel	24	static
+../source/RGB_led.c:283:6:RGB_led_delay_1s_init	8	static
+../source/RGB_led.c:294:6:Increase_interrupt_counter	8	static

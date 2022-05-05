@@ -1,0 +1,58 @@
+/**
+	\file 	Buttons.c
+	\brief
+	 	API to control the B0-B6 and SW2-SW3 initializations and interruptions.
+	\author Nelida Hernández
+	\date	01/05/2022
+ **/
+
+#include "Buttons.h"
+#include "Debouncer.h"
+#include "GPIO.h"
+#include "NVIC.h"
+#include "Bits.h"
+#include "MainMenu.h"
+#include "Switches.h"
+
+gpio_pin_control_register_t g_pcr_buttons = GPIO_MUX1 | GPIO_PE | INTR_RISING_EDGE;
+
+/*Initialization functions*/
+void Initialize_B0(void)
+{
+
+}
+
+void Initialize_B1(void)
+{
+
+}
+
+void Initialize_B2(void)
+{
+
+}
+
+void Initialize_B3(void)
+{
+
+}
+
+void Initialize_B4(void)
+{
+
+}
+
+void Initialize_B5(void)
+{
+
+}
+
+void Initialize_B6(void)
+{
+
+}
+
+void Enable_sw2_and_sw3(void)
+{
+
+}

@@ -1,0 +1,8 @@
+../source/Frequency.c:68:6:Generate_trial_signal	16	static
+../source/Frequency.c:78:6:Increase_or_decrease_freq	32	static
+../source/Frequency.c:110:6:Generate_trial_signal_stop	8	static
+../source/Frequency.c:116:6:Frequency_read_initilize	16	static
+../source/Frequency.c:130:6:GetFrequency	16	static
+../source/Frequency.c:162:6:print_frequency	16	static
+../source/Frequency.c:181:7:read_Frequency	24	static
+../source/Frequency.c:198:6:Frequency_read_stop	8	static

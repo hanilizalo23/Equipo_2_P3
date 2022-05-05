@@ -1,0 +1,2 @@
+../source/ADC.c:17:6:ADC_init	16	static
+../source/ADC.c:28:9:ADC_result	16	static

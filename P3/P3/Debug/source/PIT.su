@@ -1,0 +1,12 @@
+../source/PIT.c:31:6:PIT_delay	32	static
+../source/PIT.c:43:6:PIT_clock_gating	4	static
+../source/PIT.c:49:9:PIT_get_interrupt_flag_status	4	static
+../source/PIT.c:55:6:PIT_clear_interrupt_flag	4	static
+../source/PIT.c:61:6:PIT_enable	4	static
+../source/PIT.c:68:6:PIT_enable_interrupt	16	static
+../source/PIT.c:77:6:PIT_stop	16	static
+../source/PIT.c:82:6:PIT_callback_init	16	static
+../source/PIT.c:101:6:PIT0_IRQHandler	16	static
+../source/PIT.c:113:6:PIT1_IRQHandler	16	static
+../source/PIT.c:125:6:PIT2_IRQHandler	16	static
+../source/PIT.c:137:6:PIT3_IRQHandler	16	static
