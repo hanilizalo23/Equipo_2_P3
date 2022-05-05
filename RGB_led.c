@@ -184,3 +184,49 @@ uint8_t RGB_led_change_bright(color_value_t color,uint16_t value,increase_or_dec
 	intensity = RGB_led_duty_cycle_to_intensity(new_value);
 	return(intensity);
 }
+
+/*For submenu 2: ADC*/
+void RGB_led_adc_init(void)
+{
+	ADC_init();
+	//Initializes the FTM1 CH1 to read the ADC when an interruption happens
+	FlexTimer_clock_gating(FTM_1);
+	FlexTimer_set_mod(FTM_1,FTM_MOD_500HZ);
+	FlexTimer_configure_channel(FTM_1,CH_1,&g_configure_rgb_1s);
+	FlexTimer_change_cnv(FTM_1,CH_1,FTM_MOD_500HZ);
+	FTM_callback_init(FTM_1,read_adc);
+	NVIC_enable_interrupt_and_priotity(FTM1_IRQ,PRIORITY_9);
+	NVIC_global_enable_interrupts;
+}
+
+void read_adc(void)
+{
+	//Reads ADC value
+	g_adc_samples[g_adc_samples_counter] = ADC_result();
+	g_adc_samples_counter ++;
+	//If the array for the samples is full, the average is obtained
+	//and it is changed to the ph level and voltage
+	if(ADC_SAMPLES_MAX == g_adc_samples_counter)
+	{
+		uint32_t adc_result_avg = 0x00;
+		uint8_t ph_level;
+		float voltage;
+		uint32_t n_sample;
+		g_adc_samples_counter = 0x00;
+		for(n_sample = 0; n_sample < ADC_SAMPLES_MAX; n_sample++)
+		{
+			adc_result_avg += g_adc_samples[n_sample];
+		}
+		adc_result_avg = (adc_result_avg / ADC_SAMPLES_MAX);
+		ph_level = (uint8_t) ((adc_result_avg * PH_LEVELS_MAX) / ADC_3_3_VOLTS);
+		voltage = ((float)adc_result_avg) * ADC_INCREMENT;
+		RGB_led_ph_color(ph_level);
+		LCD_nokia_goto_xy(20,3);
+		LCD_nokia_send_float(ADC_INT_FACTOR,voltage,ADC_DIGS_NUMBER,ADC_DIGS_NUMBER);
+	}
+}
+
+void RGB_led_adc_stop(void)
+{
+	FlexTimer_disable_channel(FTM_1,CH_1);
+}
