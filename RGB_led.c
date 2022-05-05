@@ -132,3 +132,28 @@ uint8_t RGB_led_duty_cycle_to_intensity(uint16_t duty_cycle)
 	uint8_t intensity = duty_cycle / RGB_INTENSITY_GAIN;
 	return(intensity);
 }
+
+void RGB_led_set_color(rgb_intensity_colors_t *rgb_code)
+{
+	//Obtains duty cycle from intensity value
+	uint16_t duty_cycle_red =  RGB_led_intensity_to_duty_cycle(rgb_code->red);
+	uint16_t duty_cycle_green =  RGB_led_intensity_to_duty_cycle(rgb_code->green);
+	uint16_t duty_cycle_blue =  RGB_led_intensity_to_duty_cycle(rgb_code->blue);
+	//Modifies CnV in each channel
+	FlexTimer_change_cnv(FTM_0, RED_CH, duty_cycle_red);
+	FlexTimer_change_cnv(FTM_0, GREEN_CH, duty_cycle_green);
+	FlexTimer_change_cnv(FTM_0, BLUE_CH, duty_cycle_blue);
+}
+
+void RGB_led_ph_color(uint8_t ph_level)
+{
+	rgb_intensity_colors_t rgb_code;
+	//To avoid problems
+	if(PH_LEVELS_MAX < ph_level)
+	{
+		ph_level = PH_LEVELS_MAX;
+	}
+	//Searches the level on the array
+	rgb_code = g_ph_scale[ph_level];
+	RGB_led_set_color(&rgb_code);
+}
