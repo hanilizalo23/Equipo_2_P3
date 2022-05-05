@@ -157,3 +157,30 @@ void RGB_led_ph_color(uint8_t ph_level)
 	rgb_code = g_ph_scale[ph_level];
 	RGB_led_set_color(&rgb_code);
 }
+
+/*For submenu 1: Manual*/
+uint8_t RGB_led_change_bright(color_value_t color,uint16_t value,increase_or_decrease_br_t option)
+{
+	uint16_t new_value = get_channel_value(Change_br_rgb[color].ftm, Change_br_rgb[color].channel);
+	uint8_t intensity;
+	//Changes the value according to the option specified
+	if(INCREASE == option)
+	{
+		if(FTM_MOD_RGB > new_value)
+		{
+			new_value += value;
+		}
+	}
+	else
+	{
+		if(FTM_CHV_RGB_INIT < new_value)
+		{
+			new_value -= value;
+		}
+	}
+	//Modifies CnV value
+	FlexTimer_change_cnv(Change_br_rgb[color].ftm, Change_br_rgb[color].channel,new_value);
+	//Obtains the intensity equivalent (between 0 and 255)
+	intensity = RGB_led_duty_cycle_to_intensity(new_value);
+	return(intensity);
+}
