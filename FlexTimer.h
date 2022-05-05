@@ -10,6 +10,7 @@
 #ifndef FLEXTIMER_H_
 #define FLEXTIMER_H_
 
+
 #include "MK64F12.h"
 #include "stdint.h"
 
@@ -199,9 +200,16 @@ uint16_t get_channel_value(ftm_name_t flextimer,ftm_channel_name_t channel);
  	 \return void
  */
 uint16_t get_mod_value(ftm_name_t flextimer);
-
+/********************************************************************************************/
+/*!
+ 	 \brief	 Disables the channel of the FlexTimer.
+ 	 \param[in]  flextimer.
+ 	 \param[in]  channel.
+ 	 \return void
+ */
 void FlexTimer_disable_channel(ftm_name_t flextimer,ftm_channel_name_t channel);
 
+/**IRQs for FlexTimer*/
 void FTM0_IRQHandler(void);
 void FTM1_IRQHandler(void);
 void FTM2_IRQHandler(void);
