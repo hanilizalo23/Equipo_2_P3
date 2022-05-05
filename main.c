@@ -2,7 +2,7 @@
 	\file 	main.c
 	\brief
 		Program for the K64 that manipulates a RGB led according to the buttons pressed.
-	\author Nelida Paulina Hernández Moya & Mauricio Peralta Osorio
+	\authors Nelida Paulina Hernández Moya & Mauricio Peralta Osorio
 	\date	01/05/2022
  */
 
