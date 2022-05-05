@@ -68,3 +68,47 @@ uint8_t RGB_initialize_all_colors(void)
 	initialize_blue();		/**Blue configuration*/
 	return(TRUE);
 }
+
+uint8_t RGB_initialize_one_color(rgb_led_color_t color_name)
+{
+	switch(color_name)
+				{
+					case RGB_RED:		/** Color red is selected*/
+						initialize_red();
+						break;
+					case RGB_GREEN:		/** Color green is selected*/
+						initialize_green();
+						break;
+					case RGB_BLUE:		/** Color blue is selected*/
+						initialize_blue();
+						break;
+					case RGB_PURPLE:	/** Color purple is selected*/
+						initialize_red();
+						initialize_blue();
+						break;
+					case RGB_YELLOW: 	/** Color yellow is selected*/
+						initialize_red();
+						initialize_green();
+						break;
+					case RGB_CYAN: 		/** Color cyan is selected*/
+						initialize_green();
+						initialize_blue();
+						break;
+					case RGB_WHITE: 	/** Color white is selected*/
+						RGB_initialize_all_colors();
+						break;
+					default:/**If the option doesn't exist*/
+						return(FALSE);
+				}
+	return(TRUE);
+}
+
+uint8_t RGB_color_on(rgb_led_color_t color_name)
+{
+
+}
+
+uint8_t RGB_color_off(rgb_led_color_t color_name)
+{
+
+}
