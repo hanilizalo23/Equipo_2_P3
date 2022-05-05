@@ -13,7 +13,6 @@
 #include "MK64F12.h"
 #include "stdint.h"
 #include "GPIO.h"
-#include "RGB.h"
 #include "NVIC.h"
 
 void ADC_init(void); //Initialization for ADC
