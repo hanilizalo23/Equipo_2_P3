@@ -33,13 +33,74 @@ static continue_seq_t g_stop_flag = FALSE;
 static uint16_t g_adc_samples_counter = 0x00;
 //Array that stores the ADC samples
 static uint16_t g_adc_samples[ADC_SAMPLES_MAX] = {0};
+/*FSM for bright change on each color*/
 
-/*For bright change on each color*/
 const rgb_bright_change_t Change_br_rgb[3]=
 {
 	{FTM_0, RED_CH},
 	{FTM_0, GREEN_CH},
 	{FTM_0, BLUE_CH}
+};
+
+/*Configurations for FTM for the RGB control signal and to get the 1s delays*/
+const ftm_channel_config_t g_configure_ftm_rgb =
+{
+	EDGE_ALLIGNED_HT,			//uint32_t ftm_mode;
+	FTM_CHV_RGB_INIT,			//uint16_t ftm_value;
+	DISABLE,					//channel_enable_t ftm_enable_deadtime;
+	DISABLE,					//channel_enable_t ftm_enable_complement;
+	DISABLE,					//channel_enable_t ftm_enable_combine;
+	0x00,						//uint8_t ftm_dtval;
+	FLEX_TIMER_CLKS_1,			//uint8_t ftm_clocks;
+	FLEX_TIMER_PS_1,			//uint8_t ftm_prescaler;
+	DISABLE,					//channel_enable_t ftm_enable_toie;
+	DISABLE
+};
+
+const ftm_channel_config_t g_configure_rgb_1s =
+{
+	EDGE_ALLIGNED_HT,			//uint32_t ftm_mode;
+	FTM_CHV_RGB_INIT,			//uint16_t ftm_value;
+	DISABLE,					//channel_enable_t ftm_enable_deadtime;
+	DISABLE,					//channel_enable_t ftm_enable_complement;
+	DISABLE,					//channel_enable_t ftm_enable_combine;
+	0x00,						//uint8_t ftm_dtval;
+	FLEX_TIMER_CLKS_1,			//uint8_t ftm_clocks;
+	FLEX_TIMER_PS_1,			//uint8_t ftm_prescaler;
+	DISABLE,					//channel_enable_t ftm_enable_toie;
+	ENABLE
+};
+
+//Values per color (RGB codes) of the colors in the PH scale
+const rgb_intensity_colors_t g_ph_scale[15] =
+{
+	{0, 	0, 	 	0},				//0
+	{255, 	0, 	 	0},				//1
+	{255, 	69, 	0},				//2
+	{218, 	165, 	32},			//3
+	{255, 	255, 	0},				//4
+	{200, 	245, 	10},			//5
+	{150, 	201, 	2},				//6
+	{21, 	149, 	2},				//7
+	{127, 	255, 	212},			//8
+	{0, 	255, 	255},			//9
+	{0, 	192, 	255},			//10
+	{1, 	90, 	255},			//11
+	{4, 	31, 	196},			//12
+	{148, 	0, 		211},			//13
+	{75, 	0, 		130}			//14
+};
+
+//RGB codes of the colors for the sequence
+rgb_intensity_colors_t g_sequence_rgb_code[7] =
+{
+		{0,		0,		0	},			//NONE
+		{0, 	0, 	 	255	},			//BLUE
+		{255, 	0, 	 	0	},			//RED
+		{0, 	255, 	0	},			//GREEN
+		{255, 	255, 	0	},			//YELLOW
+		{255, 	0, 		255	},			//PURPLE
+		{255, 	255, 	255	},			//WHITE
 };
 
 /*Initialization and general use functions*/
